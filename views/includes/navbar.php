@@ -2,10 +2,11 @@
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
 
-                <a href="<?= route('home') ?>" class="logo">
+                <a href="<?= url('home') ?>" class="logo">
                    
                   
-                    <span style="color: #fff; font-size:18px" class="navbar-brand"> G-HOTEL</span>
+                    <span style="color: #fff; font-size:18px" class="navbar-brand"> <?= APP_NAME ?>
+                    </span>
 
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
@@ -50,7 +51,7 @@
                             </a>
                         </li>
 
-                        <?php if(auth()->hasGroupe(Groupes::RECEPTION)) : ?>
+                        <?php if(auth()->hasGroupe(groupes()::RECEPTION)) : ?>
                         <li class="nav-item dropdown hidden-caret">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,7 +80,7 @@
                         </li>
                         <?php endif; ?>
 
-                        <?php if(auth()->hasGroupe(Groupes::ADMIN) || auth()->hasGroupe(Groupes::COMPTABLE)) : ?>
+                        <?php if(auth()->hasGroupe(groupes()::ADMIN) || auth()->hasGroupe(groupes()::COMPTABLE)) : ?>
                         
                         
                         <li class="nav-item dropdown hidden-caret">

@@ -48,9 +48,9 @@
                     </a>
                 </li>
 
-                <!-- Groupes::ADMIN => -->
+                <!-- groupes()::ADMIN => -->
 
-                <?php if(auth()->hasGroupe(Groupes::ADMIN)): ?>
+                <?php if(auth()->hasGroupe(groupes()::ADMIN)): ?>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#admin">
                         <i class="fas fa-pen-square"></i>
@@ -59,7 +59,7 @@
                     </a>
                     <div class="collapse" id="admin">
                         <ul class="nav nav-collapse">
-                            <?php if(auth()->hasRole(Roles::ADMIN_H)): ?>
+                            <?php if(auth()->hasRole(roles()::ADMIN_H)): ?>
 
                             <li>
                                 <a class="item-link" href="<?= route('admin.user') ?>">
@@ -72,7 +72,7 @@
                                 </a>
                             </li>
                             <?php endif; ?>
-                            <?php if(auth()->hasRole(Roles::DASHBOARD_H)): ?>
+                            <?php if(auth()->hasRole(roles()::DASHBOARD_H)): ?>
 
                             <li>
                                 <a class="item-link" href="<?= route('admin.role') ?>">
@@ -92,8 +92,8 @@
                 </li>
                 <?php endif; ?>
 
-                <!-- Groupes::COMPTABLE => -->
-                <?php if(auth()->hasGroupe(Groupes::COMPTABLE)): ?>
+                <!-- groupes()::COMPTABLE => -->
+                <?php if(auth()->hasGroupe(groupes()::COMPTABLE)): ?>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#comptable">
                         <i class="fas fa-pen-square"></i>
@@ -102,7 +102,7 @@
                     </a>
                     <div class="collapse" id="comptable">
                         <ul class="nav nav-collapse">
-                            <?php if(auth()->hasRole(Roles::COMPTATBLE_H)): ?>
+                            <?php if(auth()->hasRole(roles()::COMPTATBLE_H)): ?>
 
                                 <li>
                                 <a class="item-link" href="<?=  route('comptable.caisse')?>">
@@ -122,7 +122,7 @@
 
                             <?php endif; ?>
 
-                            <?php if(auth()->hasRole(Roles::SALAIRE_H)): ?>
+                            <?php if(auth()->hasRole(roles()::SALAIRE_H)): ?>
 
                            <li>
                                 <a class="item-link" href="<?=  route('hotel.salaire')?>">
@@ -136,8 +136,8 @@
                 </li>
                 <?php endif; ?>
 
-                <!-- Groupes::HOTEL => -->
-                <?php if(auth()->hasGroupe(Groupes::HOTEL)): ?>
+                <!-- groupes()::HOTEL => -->
+                <?php if(auth()->hasGroupe(groupes()::HOTEL)): ?>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#hotel">
                         <i class="fas fa-table"></i>
@@ -146,7 +146,7 @@
                     </a>
                     <div class="collapse" id="hotel">
                         <ul class="nav nav-collapse">
-                            <?php if(auth()->hasRole(Roles::DEPENSE_H)) :?>
+                            <?php if(auth()->hasRole(roles()::DEPENSE_H)) :?>
                             
                             <li>
                                 <a class="item-link" href="<?= route('hotel.depenses') ?>">
@@ -156,7 +156,7 @@
                             <?php endif; ?>
                             
                             
-                            <?php if(auth()->hasRole(Roles::MANAGER_H)): ?>
+                            <?php if(auth()->hasRole(roles()::MANAGER_H)): ?>
                             <li>
                                 <a class="item-link" href="<?= route('hotel.chambres') ?>">
                                     <span class="sub-item">Chambres</span>
@@ -181,8 +181,8 @@
 
             
 
-                <!-- Groupes::RECEPTION => -->
-                <?php if(auth()->hasGroupe(Groupes::RECEPTION)): ?>
+                <!-- groupes()::RECEPTION => -->
+                <?php if(auth()->hasGroupe(groupes()::RECEPTION)): ?>
 
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#reception">
@@ -192,7 +192,7 @@
                     </a>
                     <div class="collapse" id="reception">
                         <ul class="nav nav-collapse">
-                            <?php if(auth()->hasRole(Roles::RECEPTION_H)): ?>
+                            <?php if(auth()->hasRole(roles()::RECEPTION_H)): ?>
                             <li>
                                 <a class="item-link" href="<?= route('hotel.reservation') ?>">
                                     <span class="sub-item">Reservation</span>
@@ -223,8 +223,8 @@
 
 
 
-                <!-- Groupes::PARAMETRE => -->
-                <?php if(auth()->hasGroupe(Groupes::PARAMETRE)): ?>
+                <!-- groupes()::PARAMETRE => -->
+                <?php if(auth()->hasGroupe(groupes()::PARAMETRE)): ?>
 
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#parametre">
@@ -234,7 +234,7 @@
                     </a>
                     <div class="collapse" id="parametre">
                         <ul class="nav nav-collapse">
-                            <?php if(auth()->hasRole(Roles::PARAMETRE)): ?>
+                            <?php if(auth()->hasRole(roles()::PARAMETRE)): ?>
 
                             <li>
                                 <a class="item-link" href="<?= route('setting.home') ?>">

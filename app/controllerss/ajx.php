@@ -5,7 +5,7 @@
 
 session_start();
 
-use App\Controllers\Controller;
+use App\Controllers\DashboardController;
 use App\Controllers\ControllerPrinter;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -28,7 +28,7 @@ switch ($action) {
     
     // Debut Actions pour les utilisateurs
     case 'test':
-        $ajx = new Controller();
+        $ajx = new DashboardController();
         $ajx->test();
     break;
    

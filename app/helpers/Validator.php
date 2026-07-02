@@ -73,6 +73,7 @@ class Validator
      */
     public static function post(string $key): ?string
     {
+        $_POST = sanitizePostData($_POST);
         $value = $_POST[$key] ?? null;
         return $value !== null ? trim($value) : null;
     }

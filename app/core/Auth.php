@@ -9,11 +9,11 @@ class Auth
      */
     public static function saveCurrentUrl(): void
     {
-        $url = str_replace("/hotel/","", $_SERVER["REQUEST_URI"]);
+        $url = str_replace("/appeicg/","", $_SERVER["REQUEST_URI"]);
         self::create(OLD_URL,['url' =>$url]);
     }
 
-
+  
     public static function getGroupes(): ?array
     {
         return self::check() ? self::user("groupes") : null;
@@ -56,9 +56,9 @@ class Auth
 
         Session::set($authKey, [
             'id'    => $user['code_user'],
-            'nom'  => $user['nom'].''.$user['prenom'],
-            'fonction' => $user['libelle_fonction'],
-            "hotel_id" => $user['hotel_id'],
+            'nom'  => $user['nom_user'].''.$user['prenom_user'],
+            // 'fonction' => $user['libelle_fonction'],
+            "etablissement_code" => $user['etablissement_code'],
             "caisse" => $etatCaisse,
             "is_logged" => true,
             'groupes' => $groupes, 

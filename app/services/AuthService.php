@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Auth;
 use App\Models\UserModel;
 
 class AuthService
@@ -18,6 +19,8 @@ class AuthService
     public function login(string $email, string $password): array
     {
         $user = $this->userModel->findByEmail($email);
+        $groupes = [];
+        $roles = [];
 
         if (!$user) {
             return ['success' => false, 'message' => 'Email ou mot de passe incorrect.'];
@@ -29,6 +32,29 @@ class AuthService
 
         // Mise à jour de la dernière connexion
         $this->userModel->updateLastConnexion($user['code_user']);
+        
+        // Récupérer les rôles de l'utilisateur
+        $rolesuser = $this->userModel->getUserRoles($user['code_user']);
+        $groupesuser = $this->userModel->getUserGroups($user['code_user']);
+        
+        if (!empty($groupesuser)) {
+            foreach ($groupesuser as $groupe) {
+                $groupes[] = $groupe['groupe'];
+            }
+        }
+
+        if (!empty($rolesuser)) {
+            foreach ($rolesuser as $role) {
+                
+                $roles[$role['code_role']] = [
+                    'create' => (bool) $role['create_permission'],
+                    'edit'   => (bool) $role['edit_permission'],
+                    'show'   => (bool) $role['show_permission'],
+                    'delete' => (bool) $role['delete_permission'],
+                ];
+            }
+        }
+
 
         // Démarrer la session si pas encore démarrée
         if (session_status() === PHP_SESSION_NONE) {
@@ -37,24 +63,25 @@ class AuthService
 
         // Régénérer l'ID de session pour éviter la fixation de session
         session_regenerate_id(true);
+        Auth::login($user,$groupes,$roles);
 
-        $_SESSION['user_code']          = $user['code_user'];
-        $_SESSION['user_nom']           = $user['nom_user'];
-        $_SESSION['user_prenom']        = $user['prenom_user'];
-        $_SESSION['user_email']         = $user['email_user'];
-        $_SESSION['etablissement_code'] = $user['etablissement_code'];
-        $_SESSION['logged_in']          = true;
+        // $_SESSION['user_code']          = $user['code_user'];
+        // $_SESSION['user_nom']           = $user['nom_user'];
+        // $_SESSION['user_prenom']        = $user['prenom_user'];
+        // $_SESSION['user_email']         = $user['email_user'];
+        // $_SESSION['etablissement_code'] = $user['etablissement_code'];
+        // $_SESSION['logged_in']          = true;
 
         return [
             'success' => true,
             'message' => 'Connexion réussie.',
-            'data'    => [
-                'code_user'          => $user['code_user'],
-                'nom_user'           => $user['nom_user'],
-                'prenom_user'        => $user['prenom_user'],
-                'email_user'         => $user['email_user'],
-                'etablissement_code' => $user['etablissement_code'],
-            ],
+            // 'data'    => [
+            //     'code_user'          => $user['code_user'],
+            //     'nom_user'           => $user['nom_user'],
+            //     'prenom_user'        => $user['prenom_user'],
+            //     'email_user'         => $user['email_user'],
+            //     'etablissement_code' => $user['etablissement_code'],
+            // ],
         ];
     }
 
@@ -76,6 +103,14 @@ class AuthService
     }
 
     public function isAuthenticated(): bool
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+    }
+
+      public static function check(): bool
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

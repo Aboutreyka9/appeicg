@@ -21,7 +21,7 @@ function btnLoginUser() {
             url: URL_AJAX+'auth/login',
             method: 'POST',
             data: form,
-            dataType: 'JSON',
+            // dataType: 'JSON',
             
 
             beforeSend: function () {

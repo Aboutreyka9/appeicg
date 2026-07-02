@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Exception;
+
 class UserModel extends BaseModel
 {
     private string $table = 'users';
@@ -93,5 +95,33 @@ class UserModel extends BaseModel
         );
         $stmt->execute([$statut, $code]);
         return $stmt->rowCount() > 0;
+    }
+
+        public function getUserRoles(string $userId): array
+    {
+        $data = [];
+        try {
+            $sql = "SELECT r.code_role, r.name,r.description, ur.* FROM roles AS r JOIN user_roles ur ON r.code_role = ur.role_id WHERE ur.user_id = :userId GROUP BY r.code_role";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['userId' => $userId]);
+            $data = $stmt->fetchAll();
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+        return $data;
+    }
+
+        public function getUserGroups(string $userId): array
+    {
+        $data = [];
+        try {
+            $sql = "SELECT r.groupe FROM roles AS r JOIN user_roles ur ON r.code_role = ur.role_id WHERE ur.user_id = :userId GROUP BY r.groupe";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['userId' => $userId]);
+            $data = $stmt->fetchAll();
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+        return $data;
     }
 }

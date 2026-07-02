@@ -41,7 +41,7 @@
 
 <?php 
 // auth()->disconect();
-// var_dump($_SESSION); 
+var_dump($_SESSION); 
 // var_dump(auth()->getAuthKey()); 
 //  var_dump(session_destroy()); 
 

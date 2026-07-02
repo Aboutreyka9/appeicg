@@ -41,7 +41,7 @@
                         <h4 class="page-title"><?= $_ENV['APP_NAME'] ?></h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
-                                <a href="<?= route('home')?>">
+                                <a href="<?= url('home')?>">
                                     <i class="flaticon-home"></i>
                                 </a>
                             </li>

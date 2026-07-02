@@ -46,7 +46,7 @@ class AuthController extends MainController
             Response::error($result['message'], 401);
         }
 
-        Response::success($result['message'], $result['data'] ?? []);
+        Response::success($result['message'], []);
     }
 
     /**

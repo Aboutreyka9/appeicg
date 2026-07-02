@@ -20,7 +20,7 @@ use App\Controllers\AccessoireController;
 use App\Controllers\AnneeController;
 use App\Controllers\AuthController;
 use App\Controllers\ClasseController;
-use App\Controllers\Controller;
+use App\Controllers\DashboardController;
 use App\Controllers\ControllerException;
 use App\Controllers\ControllerMailer;
 use App\Controllers\ControllerPrinter;
@@ -62,7 +62,7 @@ $router->filter('auth', [RouteMiddleWare::class, 'requireAuth']);
 /* filter  for all routes*/
 // $router->filter('auth', [RouteMiddleWare::class, 'requireAuth']);
 
-// $router->filter('guest', [RouteMiddleWare::class, 'isLogged']);
+$router->filter('guest', [RouteMiddleWare::class, 'isLogged']);
 // $router->filter('setting', [RouteMiddleWare::class, 'requireSetting']);
 // $router->filter('ghotel', [RouteMiddleWare::class, 'requireGesHotel']);
 // $router->filter('comptable', [RouteMiddleWare::class, 'requireComptable']);
@@ -190,9 +190,9 @@ $router->post('etudiants/dossiers/ajouter',    [EtudiantController::class, 'ajou
 $router->post('etudiants/dossiers/supprimer',  [EtudiantController::class, 'supprimerDossier']);
 
 // ─── Pages (vues) ────────────────────────────────────────────────────────────
-$router->get('/',          [AuthController::class, 'authentication']);
-$router->get('/login',     [AuthController::class, 'authentication']);
-$router->get('/dashboard', function () { require __DIR__ . '/../templates/dashboard.php'; });
+$router->get('/',          [AuthController::class, 'authentication'],['before' => 'guest']);
+$router->get('/login',     [AuthController::class, 'authentication'],['before' => 'guest']);
+$router->get('/dashboard',  [DashboardController::class, 'index']);
 $router->get('/etablissements', function () { require __DIR__ . '/../templates/etablissements.php'; });
 $router->get('/annees',    function () { require __DIR__ . '/../templates/annees.php'; });
 $router->get('/cycles',       function () { require __DIR__ . '/../templates/cycles.php'; });

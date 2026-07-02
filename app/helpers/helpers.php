@@ -1,5 +1,8 @@
 <?php
 
+use App\configs\Groupes;
+use App\configs\Permissions;
+use App\configs\Roles;
 use App\Core\Auth;
 use App\Core\Gqr;
 use App\Services\Service;
@@ -575,6 +578,27 @@ if (!function_exists('gqr')) {
     function gqr(): Gqr
     {
         return new Gqr();
+    }
+}
+
+if (!function_exists('roles')) {
+    function roles(): Roles
+    {
+        return new Roles();
+    }
+}
+
+if (!function_exists('permissions')) {
+    function permissions(): Permissions
+    {
+        return new Permissions();
+    }
+}
+
+if (!function_exists('groupes')) {
+    function groupes(): Groupes
+    {
+        return new Groupes();
     }
 }
 
