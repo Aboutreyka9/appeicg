@@ -21,7 +21,7 @@ $(document).ready(function () {
   // CHARGEMENT SELECTS GLOBAUX
   // ═══════════════════════════════════════════════════════════
   function loadSelects() {
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const annees = res.data || [];
       const opts   = annees.map(a => `<option value="${a.libelle_annee}">${esc(a.libelle_annee)}</option>`).join('');
       const optsId = annees.map(a => `<option value="${a.libelle_annee}">${esc(a.libelle_annee)}</option>`).join('');
@@ -37,7 +37,7 @@ $(document).ready(function () {
     });
 
     // Inscriptions pour le modal paiement
-    $.get('/api/inscriptions/liste', function (res) {
+    $.get('/appeicg/inscriptions/liste', function (res) {
       const ins = res.data || [];
       const opts = ins.filter(i => i.statut_inscription !== 'annule').map(i =>
         `<option value="${i.code_inscription}" data-annee="${escA(i.annee_code)}" data-montant="${i.montant_scolarite_inscription}">
@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
     // Filières pour grille tarifaire
-    $.get('/api/filieres/liste', function (res) {
+    $.get('/appeicg/filieres/liste', function (res) {
       const opts = (res.data || []).filter(f => f.statut_filiere === 'actif')
         .map(f => `<option value="${f.code_filiere}">${esc(f.libelle_filiere)}</option>`).join('');
       $('#sco-filiere').find('option:not(:first)').remove().end().append(opts);
@@ -62,7 +62,7 @@ $(document).ready(function () {
     const $niv = $('#sco-niveau');
     $niv.find('option:not(:first)').remove().prop('disabled', !fil);
     if (!fil) return;
-    $.get(`/api/niveaux/liste?filiere_code=${fil}`, function (res) {
+    $.get(`/appeicg/niveaux/liste?filiere_code=${fil}`, function (res) {
       (res.data || []).filter(n => n.statut_niveau === 'actif').forEach(n => {
         $niv.append(`<option value="${n.code_niveau}">${esc(n.libelle_niveau)}</option>`);
       });
@@ -79,7 +79,7 @@ $(document).ready(function () {
     if (insCode) {
       $('#pay-annee').val(annee);
       // Afficher le reste à payer
-      $.get(`/api/paiements/by-inscription?inscription_code=${insCode}`, function (res) {
+      $.get(`/appeicg/paiements/by-inscription?inscription_code=${insCode}`, function (res) {
         const total    = parseFloat(res.data?.total || 0);
         const restant  = Math.max(montant - total, 0);
         const info     = montant > 0
@@ -97,7 +97,7 @@ $(document).ready(function () {
   // KPIs
   // ═══════════════════════════════════════════════════════════
   function loadStats(anneeCode) {
-    $.get(`/api/paiements/stats?annee_code=${encodeURIComponent(anneeCode || '')}`, function (res) {
+    $.get(`/appeicg/paiements/stats?annee_code=${encodeURIComponent(anneeCode || '')}`, function (res) {
       const total = parseFloat(res.data?.total_confirme || 0);
       $('#kpi-total').text(fmt(total) + ' FCFA');
     });
@@ -114,7 +114,7 @@ $(document).ready(function () {
       search:        $('#f-pay-search').val().trim(),
     });
 
-    $.get('/api/paiements/liste?' + params.toString(), function (res) {
+    $.get('/appeicg/paiements/liste?' + params.toString(), function (res) {
       const pays = res.data || [];
       $('#pay-count').text(`${pays.length} paiement${pays.length > 1 ? 's' : ''}`);
       $('#kpi-nb').text(pays.filter(p => p.statut_paiement === 'confirme').length);
@@ -186,7 +186,7 @@ $(document).ready(function () {
     if (!ok) return;
 
     setSaving('pay', true);
-    $.post('/api/paiements/enregistrer', {
+    $.post('/appeicg/paiements/enregistrer', {
       montant_paiement:  montant,
       type_paiement:     type,
       mode_paiement:     mode,
@@ -213,7 +213,7 @@ $(document).ready(function () {
     const code = $(this).data('code');
     if (!confirm('Annuler ce paiement ? Cette action est irréversible.')) return;
     $(this).prop('disabled', true);
-    $.post('/api/paiements/annuler', { code_paiement: code }, function (res) {
+    $.post('/appeicg/paiements/annuler', { code_paiement: code }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadPaiements(); }
       else showToast(res.message, 'error');
     });
@@ -224,7 +224,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadScolarites() {
     const annee = $('#f-sco-annee').val();
-    const url   = '/api/scolarites/liste' + (annee ? `?annee_code=${encodeURIComponent(annee)}` : '');
+    const url   = '/appeicg/scolarites/liste' + (annee ? `?annee_code=${encodeURIComponent(annee)}` : '');
     $.get(url, function (res) {
       const scos   = res.data || [];
       const $tbody = $('#tbody-sco');
@@ -302,7 +302,7 @@ $(document).ready(function () {
     const data = { filiere_code: filiere, niveau_code: niveau, annee_code: annee, montant_scolarite: montant };
     if (code) data.code_scolarite = code;
     $.ajax({
-      url: code ? '/api/scolarites/modifier' : '/api/scolarites/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/scolarites/modifier' : '/appeicg/scolarites/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('sco', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-sco'); loadScolarites(); }
@@ -323,7 +323,7 @@ $(document).ready(function () {
     const code = $(this).data('code');
     if (!confirm('Supprimer ce tarif ?')) return;
     $(this).prop('disabled', true);
-    $.post('/api/scolarites/supprimer', { code_scolarite: code }, function (res) {
+    $.post('/appeicg/scolarites/supprimer', { code_scolarite: code }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadScolarites(); }
       else showToast(res.message, 'error');
     });

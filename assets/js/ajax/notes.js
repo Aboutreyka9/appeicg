@@ -21,7 +21,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadSelects() {
     // Années
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const annees = res.data || [];
       const opts   = annees.map(a => `<option value="${a.libelle_annee}" data-id="${a.id_annee}">${esc(a.libelle_annee)}</option>`).join('');
       $('#s-annee').find('option:not(:first)').remove().end().append(opts);
@@ -30,21 +30,21 @@ $(document).ready(function () {
     });
 
     // Classes
-    $.get('/api/classes/liste', function (res) {
+    $.get('/appeicg/classes/liste', function (res) {
       const opts = (res.data || []).filter(c => c.statut_classe === 'actif')
         .map(c => `<option value="${c.code_classe}">${esc(c.libelle_classe)}</option>`).join('');
       $('#s-classe, #c-classe').find('option:not(:first)').remove().end().append(opts);
     });
 
     // Matières
-    $.get('/api/matieres/liste', function (res) {
+    $.get('/appeicg/matieres/liste', function (res) {
       const opts = (res.data || []).filter(m => m.statut_matiere === 'actif')
         .map(m => `<option value="${m.code_matiere}">${esc(m.libelle_matiere)}</option>`).join('');
       $('#s-matiere').find('option:not(:first)').remove().end().append(opts);
     });
 
     // Inscriptions (pour bulletin)
-    $.get('/api/inscriptions/liste', function (res) {
+    $.get('/appeicg/inscriptions/liste', function (res) {
       const opts = (res.data || []).map(i =>
         `<option value="${i.code_inscription}">${esc(i.nom_etudiant)} ${esc(i.prenom_etudiant)} — ${esc(i.libelle_classe)} (${esc(i.annee_code)})</option>`
       ).join('');
@@ -52,12 +52,12 @@ $(document).ready(function () {
     });
 
     // Tous les semestres pour bulletin + classement
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const annees = res.data || [];
       if (!annees.length) return;
       // Charger les semestres de la première année active
       const actif = annees.find(a => a.statut_annee === 'actif') || annees[0];
-      $.get(`/api/semestres/liste?annee_code=${encodeURIComponent(actif.libelle_annee)}`, function (sr) {
+      $.get(`/appeicg/semestres/liste?annee_code=${encodeURIComponent(actif.libelle_annee)}`, function (sr) {
         const opts = (sr.data || []).map(s =>
           `<option value="${s.code_semestre}">${esc(s.libelle_semestre)} — ${esc(actif.libelle_annee)}</option>`
         ).join('');
@@ -73,7 +73,7 @@ $(document).ready(function () {
     const $sem  = $('#s-semestre');
     $sem.find('option:not(:first)').remove().prop('disabled', !annee);
     if (!annee) return;
-    $.get(`/api/semestres/liste?annee_code=${encodeURIComponent(annee)}`, function (res) {
+    $.get(`/appeicg/semestres/liste?annee_code=${encodeURIComponent(annee)}`, function (res) {
       (res.data || []).forEach(s => $sem.append(`<option value="${s.code_semestre}">${esc(s.libelle_semestre)}</option>`));
       $sem.prop('disabled', false);
     });
@@ -97,7 +97,7 @@ $(document).ready(function () {
     saisieContext = { semestreCode, classeCode, matiereCode, typeEval };
 
     // Charger les inscriptions de la classe
-    $.get(`/api/inscriptions/liste?classe_code=${classeCode}`, function (res) {
+    $.get(`/appeicg/inscriptions/liste?classe_code=${classeCode}`, function (res) {
       const inscriptions = (res.data || []).filter(i => i.statut_inscription !== 'annule');
       if (!inscriptions.length) {
         showToast('Aucun étudiant inscrit dans cette classe.', 'warning'); return;
@@ -105,7 +105,7 @@ $(document).ready(function () {
       saisieContext.inscriptions = inscriptions;
 
       // Charger les notes existantes
-      $.get(`/api/notes/liste?classe_code=${classeCode}&semestre_code=${semestreCode}&matiere_code=${matiereCode}`, function (nr) {
+      $.get(`/appeicg/notes/liste?classe_code=${classeCode}&semestre_code=${semestreCode}&matiere_code=${matiereCode}`, function (nr) {
         const notesExist = {};
         (nr.data || []).filter(n => n.type_evaluation_code === typeEval).forEach(n => {
           notesExist[n.inscription_code] = n;
@@ -182,9 +182,9 @@ $(document).ready(function () {
         semestre_code: saisieContext.semestreCode, observations: r.obs,
       };
       if (r.noteCode) {
-        return $.post('/api/notes/modifier', { code_note: r.noteCode, valeur_note: r.valeur, type_evaluation_code: saisieContext.typeEval, observations: r.obs });
+        return $.post('/appeicg/notes/modifier', { code_note: r.noteCode, valeur_note: r.valeur, type_evaluation_code: saisieContext.typeEval, observations: r.obs });
       } else {
-        return $.post('/api/notes/ajouter', data);
+        return $.post('/appeicg/notes/ajouter', data);
       }
     });
 
@@ -208,7 +208,7 @@ $(document).ready(function () {
 
     $('#bulletin-view').html('<p class="text-sm text-muted" style="text-align:center;padding:30px">Chargement du bulletin…</p>');
 
-    $.get(`/api/notes/bulletin?inscription_code=${insCode}&semestre_code=${semCode}`, function (res) {
+    $.get(`/appeicg/notes/bulletin?inscription_code=${insCode}&semestre_code=${semCode}`, function (res) {
       const d  = res.data;
       const et = d.etudiant || {};
       const bl = d.bulletin || [];
@@ -282,7 +282,7 @@ $(document).ready(function () {
     const semestreCode = $('#c-semestre').val();
     if (!classeCode || !semestreCode) { showToast('Choisissez une classe et un semestre.', 'warning'); return; }
 
-    $.get(`/api/notes/classement?classe_code=${classeCode}&semestre_code=${semestreCode}`, function (res) {
+    $.get(`/appeicg/notes/classement?classe_code=${classeCode}&semestre_code=${semestreCode}`, function (res) {
       const data = res.data || [];
       const $tbody = $('#tbody-classement');
       $tbody.empty();

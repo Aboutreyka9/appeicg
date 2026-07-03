@@ -32,7 +32,7 @@ class EnseignantController extends MainController
 
     public function index()
     {
-        return $this->viewGuest('enseignants/liste', ["title" => "Enseignants"]);
+        return $this->view('enseignants/liste', ["title" => "Enseignants"]);
     }
 
     public function liste(): void

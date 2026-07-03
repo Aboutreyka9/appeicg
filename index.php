@@ -16,6 +16,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+// ─── Variables d'environnement ───────────────────────────────────────────────
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
+$dotenv->load();
+
 use App\Controllers\AccessoireController;
 use App\Controllers\AnneeController;
 use App\Controllers\AuthController;
@@ -26,14 +30,18 @@ use App\Controllers\ControllerMailer;
 use App\Controllers\ControllerPrinter;
 use App\controllers\ControllerUser;
 use App\Controllers\CycleController;
+use App\Controllers\DocumentController;
 use App\Controllers\EmploiTempsController;
 use App\Controllers\EnseignantController;
 use App\Controllers\EtablissementController;
 use App\Controllers\EtudiantController;
+use App\Controllers\EvenementController;
 use App\Controllers\FiliereController;
 use App\Controllers\InscriptionController;
 use App\Controllers\MatiereController;
+use App\Controllers\MessageController;
 use App\Controllers\NiveauController;
+use App\Controllers\NoteController;
 use App\Controllers\PaiementController;
 use App\Controllers\SalleController;
 use App\Controllers\ScolariteController;
@@ -227,7 +235,7 @@ $router->get('/etudiants',    [EtudiantController::class, 'index'],['before' => 
 $router->get('/inscriptions', [InscriptionController::class, 'index'],['before' => 'auth']);
 $router->get('/paiements',         [PaiementController::class, 'index'],['before' => 'auth']);
 $router->get('/emplois-du-temps', [EmploiTempsController::class, 'index'],['before' => 'auth']);
-$router->get('/notes',            function () { require __DIR__ . '/../templates/notes.php'; });
+$router->get('/notes',            [NoteController::class, 'index'],['before' => 'auth']);
 $router->get('/communication',    function () { require __DIR__ . '/../templates/communication.php'; });
 
 

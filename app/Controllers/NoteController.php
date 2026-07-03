@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\NoteModel;
 use App\Models\InscriptionModel;
 use App\Models\MatiereModel;
@@ -12,7 +13,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class NoteController
+class NoteController extends MainController
 {
     private NoteModel        $model;
     private InscriptionModel $inscriptionModel;
@@ -23,7 +24,7 @@ class NoteController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new NoteModel();
         $this->inscriptionModel  = new InscriptionModel();
         $this->matiereModel      = new MatiereModel();
@@ -32,6 +33,10 @@ class NoteController
         $this->userCode          = AuthService::getUserCode();
     }
 
+    public function index()
+    {
+        return $this->view('academiques/notes', ["title" => "Notes"]);
+    }
     // ─── CRUD Notes ───────────────────────────────────────────
 
     public function liste(): void

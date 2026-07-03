@@ -24,7 +24,7 @@ class AuthController extends MainController
     }
 
     /**
-     * POST /api/auth/login
+     * POST /appeicg/auth/login
      */
     public function login(): void
     {
@@ -50,7 +50,7 @@ class AuthController extends MainController
     }
 
     /**
-     * POST /api/auth/logout
+     * POST /appeicg/auth/logout
      */
     public function logout(): void
     {
@@ -59,7 +59,7 @@ class AuthController extends MainController
     }
 
     /**
-     * GET /api/auth/check
+     * GET /appeicg/auth/check
      */
     public function check(): void
     {

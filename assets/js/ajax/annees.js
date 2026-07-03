@@ -14,7 +14,7 @@ $(document).ready(function () {
 
   function loadAnnees() {
     $.ajax({
-      url: '/api/annees/liste',
+      url: '/appeicg/annees/liste',
       method: 'GET',
       success: function (res) {
         if (!res.success) { showToast('Erreur lors du chargement.', 'error'); return; }
@@ -143,7 +143,7 @@ $(document).ready(function () {
 
     setSaving('annee', true);
 
-    const url  = anneeEditMode ? '/api/annees/modifier' : '/api/annees/ajouter';
+    const url  = anneeEditMode ? '/appeicg/annees/modifier' : '/appeicg/annees/ajouter';
     const data = { libelle_annee: libelle, date_debut_annee: debut, date_fin_annee: fin };
     if (anneeEditMode) data.id_annee = $('#annee-id').val();
 
@@ -175,7 +175,7 @@ $(document).ready(function () {
     if (!confirm(`Voulez-vous vraiment ${statut === 'actif' ? 'activer' : 'désactiver'} cette année ?`)) return;
     $btn.prop('disabled', true);
     $.ajax({
-      url: '/api/annees/statut', method: 'POST',
+      url: '/appeicg/annees/statut', method: 'POST',
       data: { id_annee: id, statut_annee: statut },
       success: function (res) {
         if (res.success) { showToast(res.message, 'success'); loadAnnees(); }
@@ -197,7 +197,7 @@ $(document).ready(function () {
     const anneeLibelle = $(`.btn-add-sem[data-annee-id="${anneeId}"]`).data('annee-libelle');
 
     $.ajax({
-      url: `/api/semestres/liste?annee_code=${encodeURIComponent(anneeLibelle)}`,
+      url: `/appeicg/semestres/liste?annee_code=${encodeURIComponent(anneeLibelle)}`,
       method: 'GET',
       success: function (res) {
         const sems = res.data || [];
@@ -300,7 +300,7 @@ $(document).ready(function () {
 
     setSaving('sem', true);
 
-    const url  = semEditMode ? '/api/semestres/modifier' : '/api/semestres/ajouter';
+    const url  = semEditMode ? '/appeicg/semestres/modifier' : '/appeicg/semestres/ajouter';
     const data = {
       libelle_semestre:    libelle,
       annee_code:          anneeId,
@@ -337,7 +337,7 @@ $(document).ready(function () {
     if (!confirm('Supprimer ce semestre ? Cette action est irréversible.')) return;
 
     $.ajax({
-      url: '/api/semestres/supprimer', method: 'POST',
+      url: '/appeicg/semestres/supprimer', method: 'POST',
       data: { code_semestre: code },
       success: function (res) {
         if (res.success) { showToast(res.message, 'success'); loadSemestres(anneeId); }

@@ -26,7 +26,7 @@ class CycleController extends MainController
 
      public function index()
     {
-        return $this->viewGuest('academiques/cycles', ["title" => "cycles"]);
+        return $this->view('academiques/cycles', ["title" => "cycles"]);
     }
 
     public function liste(): void

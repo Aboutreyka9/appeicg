@@ -33,7 +33,7 @@ function checkAuthAndSetUser() {
   const isLoginPage = window.location.pathname === '/' || window.location.pathname === '/login';
 
   $.ajax({
-    url: '/api/auth/check',
+    url: '/appeicg/auth/check',
     method: 'GET',
     success: function (res) {
       if (res.success && res.data) {
@@ -107,7 +107,7 @@ $(document).ready(function () {
       $btn.prop('disabled', true).html('<span class="spinner"></span> Connexion…');
 
       $.ajax({
-        url: '/api/auth/login',
+        url: '/appeicg/auth/login',
         method: 'POST',
         data: { email, password },
         success: function (res) {
@@ -138,7 +138,7 @@ $(document).ready(function () {
   // ─── Déconnexion ───────────────────────────────────────────────────────────
   $(document).on('click', '#btn-logout', function () {
     $.ajax({
-      url: '/api/auth/logout',
+      url: '/appeicg/auth/logout',
       method: 'POST',
       success: function () {
         window.location.href = '/login';

@@ -5,7 +5,7 @@ $(document).ready(function () {
   let editMode = false;
 
   function loadMatieres() {
-    $.get('/api/matieres/liste', function (res) {
+    $.get('/appeicg/matieres/liste', function (res) {
       const mats = res.data || [];
       $('#mat-count').text(`${mats.length} matière${mats.length > 1 ? 's' : ''}`);
       const $tbody = $('#tbody-matieres');
@@ -60,7 +60,7 @@ $(document).ready(function () {
     const data = { libelle_matiere: libelle };
     if (code) data.code_matiere = code;
     $.ajax({
-      url: code ? '/api/matieres/modifier' : '/api/matieres/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/matieres/modifier' : '/appeicg/matieres/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving(false);
         if (res.success) { showToast(res.message, 'success'); close(); loadMatieres(); }
@@ -74,7 +74,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cette matière ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/matieres/statut', { code_matiere: code, statut_matiere: statut }, function (res) {
+    $.post('/appeicg/matieres/statut', { code_matiere: code, statut_matiere: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadMatieres(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });

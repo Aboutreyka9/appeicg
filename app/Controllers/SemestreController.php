@@ -27,7 +27,7 @@ class SemestreController
     }
 
     /**
-     * GET /api/semestres/liste?annee_code=XXX
+     * GET /appeicg/semestres/liste?annee_code=XXX
      */
     public function liste(): void
     {
@@ -41,7 +41,7 @@ class SemestreController
     }
 
     /**
-     * POST /api/semestres/ajouter
+     * POST /appeicg/semestres/ajouter
      */
     public function ajouter(): void
     {
@@ -95,7 +95,7 @@ class SemestreController
     }
 
     /**
-     * POST /api/semestres/modifier
+     * POST /appeicg/semestres/modifier
      */
     public function modifier(): void
     {
@@ -137,7 +137,7 @@ class SemestreController
     }
 
     /**
-     * POST /api/semestres/supprimer
+     * POST /appeicg/semestres/supprimer
      */
     public function supprimer(): void
     {

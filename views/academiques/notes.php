@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes & Bulletins — <?= htmlspecialchars($_ENV['APP_NAME'] ?? 'EICG') ?></title>
-  <link rel="stylesheet" href="/assets/css/app.css">
+
   <style>
     .tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); }
     .tab-btn { padding:10px 20px; font-size:.875rem; font-weight:600; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
@@ -44,10 +38,8 @@
     .rank-2 { color:silver; font-weight:700; }
     .rank-3 { color:#cd7f32; font-weight:700; }
   </style>
-</head>
-<body>
+
 <div class="layout">
-  <?php require __DIR__ . '/partials/sidebar.php'; ?>
   <div class="main">
     <header class="topbar">
       <span class="topbar-title">Notes & Bulletins</span>
@@ -179,48 +171,4 @@
   </div>
 </div>
 
-<!-- Modal note individuelle -->
-<div class="modal-backdrop" id="modal-note">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-note-title">Modifier la note</span>
-      <button class="modal-close" data-close="modal-note">✕</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="note-code">
-      <div class="form-group">
-        <label class="form-label">Note /20 <span class="req">*</span></label>
-        <input type="number" id="note-valeur" class="form-control" min="0" max="20" step="0.25">
-        <div class="form-error" id="err-note-valeur"></div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Type d'évaluation <span class="req">*</span></label>
-        <select id="note-type" class="form-control">
-          <option value="devoir1">Devoir 1</option>
-          <option value="devoir2">Devoir 2</option>
-          <option value="examen">Examen</option>
-          <option value="tp">TP</option>
-          <option value="rattrapage">Rattrapage</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Observation</label>
-        <input type="text" id="note-obs" class="form-control" placeholder="Optionnel…">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" data-close="modal-note">Annuler</button>
-      <button class="btn btn-primary" id="btn-save-note">
-        <span id="save-note-text">Enregistrer</span>
-        <span class="spinner" id="save-note-spinner" style="display:none"></span>
-      </button>
-    </div>
-  </div>
-</div>
-
 <div class="toast-container" id="toast-container"></div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/assets/js/ajax/auth.js"></script>
-<script src="/assets/js/ajax/notes.js"></script>
-</body>
-</html>

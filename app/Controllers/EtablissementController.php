@@ -24,11 +24,11 @@ class EtablissementController extends MainController
 
          public function index()
     {
-        return $this->viewGuest('configurations/etablissements', ["title" => "Etablissement"]);
+        return $this->view('configurations/etablissements', ["title" => "Etablissement"]);
     }
 
     /**
-     * GET /api/etablissements/liste
+     * GET /appeicg/etablissements/liste
      */
     public function liste(): void
     {
@@ -37,7 +37,7 @@ class EtablissementController extends MainController
     }
 
     /**
-     * POST /api/etablissements/ajouter
+     * POST /appeicg/etablissements/ajouter
      */
     public function ajouter(): void
     {
@@ -70,7 +70,7 @@ class EtablissementController extends MainController
     }
 
     /**
-     * POST /api/etablissements/modifier
+     * POST /appeicg/etablissements/modifier
      */
     public function modifier(): void
     {
@@ -113,7 +113,7 @@ class EtablissementController extends MainController
     }
 
     /**
-     * POST /api/etablissements/statut
+     * POST /appeicg/etablissements/statut
      */
     public function statut(): void
     {

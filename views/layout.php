@@ -152,8 +152,17 @@
     <!--   Core JS Files   -->
     <?php include 'includes/script.php' ?>
 
-<script src="<?=  ASSETS?>othe5r/js/ajax/auth.js"></script>
-<script src="<?=  ASSETS?>othe5r/js/ajax/etablissements.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/auth.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/etablissements.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/annees.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/classes.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/cycles.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/emplois_temps.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/enseignants.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/etudiants.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/inscriptions.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/matieres.js"></script>
+<script src="<?=  ASSETS?>other/js/ajax/paiements.js"></script>
 
 <script>
   // Date dans le topbar

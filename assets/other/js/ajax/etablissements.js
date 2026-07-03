@@ -10,7 +10,7 @@ $(document).ready(function () {
   // ─── Charger la liste ─────────────────────────────────────────────────────
   function loadEtablissements() {
     $.ajax({
-      url: '/api/etablissements/liste',
+      url: 'appeicg/etablissements/liste',
       method: 'GET',
       success: function (res) {
         if (!res.success) {
@@ -146,7 +146,7 @@ $(document).ready(function () {
 
     setSaving(true);
 
-    const url  = editMode ? '/api/etablissements/modifier' : '/api/etablissements/ajouter';
+    const url  = editMode ? 'appeicg/etablissements/modifier' : 'appeicg/etablissements/ajouter';
     const data = {
       libelle_etablissement:    libelle,
       email_etablissement:      email,
@@ -198,7 +198,7 @@ $(document).ready(function () {
     $btn.prop('disabled', true);
 
     $.ajax({
-      url: '/api/etablissements/statut',
+      url: 'appeicg/etablissements/statut',
       method: 'POST',
       data: { code_etablissement: code, statut_etablissement: statut },
       success: function (res) {

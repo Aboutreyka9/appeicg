@@ -29,7 +29,7 @@ class PaiementController extends MainController
 
         public function index()
     {
-        return $this->viewGuest('finances/paiements', ["title" => "Paiements"]);
+        return $this->view('finances/paiements', ["title" => "Paiements"]);
     }
     
     public function liste(): void

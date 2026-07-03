@@ -22,7 +22,7 @@ $(document).ready(function () {
   // CYCLES
   // ═══════════════════════════════════════════════════════════
   function loadCycles() {
-    $.get('/api/cycles/liste', function (res) {
+    $.get('/appeicg/cycles/liste', function (res) {
       const cycles = res.data || [];
       $('#cycle-count').text(`${cycles.length} cycle${cycles.length > 1 ? 's' : ''}`);
       const $tbody = $('#tbody-cycles');
@@ -107,7 +107,7 @@ $(document).ready(function () {
     const data   = { libelle_cycle: libelle };
     if (isEdit) data.code_cycle = code;
     $.ajax({
-      url: isEdit ? '/api/cycles/modifier' : '/api/cycles/ajouter', method: 'POST', data,
+      url: isEdit ? '/appeicg/cycles/modifier' : '/appeicg/cycles/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('cycle', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-cycle'); loadCycles(); }
@@ -122,7 +122,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} ce cycle ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/cycles/statut', { code_cycle: code, statut_cycle: statut }, function (res) {
+    $.post('/appeicg/cycles/statut', { code_cycle: code, statut_cycle: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadCycles(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -134,7 +134,7 @@ $(document).ready(function () {
   function loadFilieres(cycleCode) {
     const $c = $(`#fil-list-${cycleCode}`);
     $c.html('<p class="text-sm text-muted">Chargement…</p>');
-    $.get(`/api/filieres/liste?cycle_code=${cycleCode}`, function (res) {
+    $.get(`/appeicg/filieres/liste?cycle_code=${cycleCode}`, function (res) {
       const fils = res.data || [];
       $(`.fil-count-${cycleCode}`).text(`${fils.length} fil.`);
       if (!fils.length) { $c.html('<p class="text-sm text-muted">Aucune filière. Ajoutez-en une.</p>'); return; }
@@ -224,7 +224,7 @@ $(document).ready(function () {
     const data = { libelle_filiere: libelle, cycle_code: $('#fil-cycle-code').val(), description_filiere: $('#fil-description').val().trim() };
     if (code) data.code_filiere = code;
     $.ajax({
-      url: code ? '/api/filieres/modifier' : '/api/filieres/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/filieres/modifier' : '/appeicg/filieres/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('fil', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-filiere'); loadFilieres($('#fil-cycle-code').val()); }
@@ -239,7 +239,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut'); const cycle = $btn.data('cycle');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cette filière ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/filieres/statut', { code_filiere: code, statut_filiere: statut }, function (res) {
+    $.post('/appeicg/filieres/statut', { code_filiere: code, statut_filiere: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadFilieres(cycle); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -251,7 +251,7 @@ $(document).ready(function () {
   function loadNiveaux(filiereCode) {
     const $c = $(`#niv-list-${filiereCode}`);
     $c.html('<p class="text-sm text-muted">Chargement…</p>');
-    $.get(`/api/niveaux/liste?filiere_code=${filiereCode}`, function (res) {
+    $.get(`/appeicg/niveaux/liste?filiere_code=${filiereCode}`, function (res) {
       const nivs = res.data || [];
       $(`.niv-count-${filiereCode}`).text(`${nivs.length} niv.`);
       if (!nivs.length) { $c.html('<p class="text-sm text-muted">Aucun niveau. Ajoutez-en un.</p>'); return; }
@@ -305,7 +305,7 @@ $(document).ready(function () {
     const data = { libelle_niveau: libelle, filiere_code: $('#niv-filiere-code').val() };
     if (code) data.code_niveau = code;
     $.ajax({
-      url: code ? '/api/niveaux/modifier' : '/api/niveaux/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/niveaux/modifier' : '/appeicg/niveaux/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('niv', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-niveau'); loadNiveaux($('#niv-filiere-code').val()); }
@@ -320,7 +320,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut'); const fil = $btn.data('fil');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} ce niveau ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/niveaux/statut', { code_niveau: code, statut_niveau: statut }, function (res) {
+    $.post('/appeicg/niveaux/statut', { code_niveau: code, statut_niveau: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadNiveaux(fil); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -330,7 +330,7 @@ $(document).ready(function () {
   // SALLES
   // ═══════════════════════════════════════════════════════════
   function loadSalles() {
-    $.get('/api/salles/liste', function (res) {
+    $.get('/appeicg/salles/liste', function (res) {
       const salles = res.data || [];
       const $tbody = $('#tbody-salles');
       $tbody.empty();
@@ -373,7 +373,7 @@ $(document).ready(function () {
     const data = { libelle_salle: libelle };
     if (code) data.code_salle = code;
     $.ajax({
-      url: code ? '/api/salles/modifier' : '/api/salles/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/salles/modifier' : '/appeicg/salles/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('salle', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-salle'); loadSalles(); }
@@ -386,7 +386,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cette salle ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/salles/statut', { code_salle: code, statut_salle: statut }, function (res) {
+    $.post('/appeicg/salles/statut', { code_salle: code, statut_salle: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadSalles(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });

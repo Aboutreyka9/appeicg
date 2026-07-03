@@ -32,7 +32,7 @@ class ClasseController extends MainController
 
          public function index()
     {
-        return $this->viewGuest('academiques/classes', ["title" => "classe"]);
+        return $this->view('academiques/classes', ["title" => "classe"]);
     }
 
     public function liste(): void

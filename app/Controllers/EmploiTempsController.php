@@ -42,7 +42,7 @@ class EmploiTempsController extends MainController
 
             public function index()
     {
-        return $this->viewGuest('academiques/emplois_temps', ["title" => "Emplois du temps"]);
+        return $this->view('academiques/emplois_temps', ["title" => "Emplois du temps"]);
     }
 
     public function liste(): void

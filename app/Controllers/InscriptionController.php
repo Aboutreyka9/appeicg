@@ -38,7 +38,7 @@ class InscriptionController extends MainController
 
     public function index()
     {
-        return $this->viewGuest('etudiants/inscriptions', ["title" => "Inscription"]);
+        return $this->view('etudiants/inscriptions', ["title" => "Inscription"]);
     }
 
     // ─── Inscriptions ─────────────────────────────────────────

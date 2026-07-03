@@ -33,7 +33,7 @@ $(document).ready(function () {
   // CHARGEMENT SELECTS
   // ═══════════════════════════════════════════════════════════
   function loadSelects() {
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const opts = (res.data || []).map(a => `<option value="${a.libelle_annee}" data-id="${a.id_annee}">${esc(a.libelle_annee)}</option>`).join('');
       const optsId = (res.data || []).map(a => `<option value="${a.id_annee}">${esc(a.libelle_annee)}</option>`).join('');
       $('#f-emp-annee').find('option:not(:first)').remove().end().append(opts);
@@ -47,25 +47,25 @@ $(document).ready(function () {
       }
     });
 
-    $.get('/api/classes/liste', function (res) {
+    $.get('/appeicg/classes/liste', function (res) {
       const opts = (res.data || []).filter(c => c.statut_classe === 'actif')
         .map(c => `<option value="${c.code_classe}">${esc(c.libelle_classe)}</option>`).join('');
       $('#f-emp-classe, #emp-classe').find('option:not(:first)').remove().end().append(opts);
     });
 
-    $.get('/api/enseignants/liste', function (res) {
+    $.get('/appeicg/enseignants/liste', function (res) {
       const opts = (res.data || []).filter(e => e.statut_enseignant === 'actif')
         .map(e => `<option value="${e.code_enseignant}">${esc(e.nom_enseignant)}</option>`).join('');
       $('#f-emp-ens, #emp-enseignant').find('option:not(:first)').remove().end().append(opts);
     });
 
-    $.get('/api/matieres/liste', function (res) {
+    $.get('/appeicg/matieres/liste', function (res) {
       const opts = (res.data || []).filter(m => m.statut_matiere === 'actif')
         .map(m => `<option value="${m.code_matiere}">${esc(m.libelle_matiere)}</option>`).join('');
       $('#emp-matiere').find('option:not(:first)').remove().end().append(opts);
     });
 
-    $.get('/api/salles/liste', function (res) {
+    $.get('/appeicg/salles/liste', function (res) {
       const opts = (res.data || []).filter(s => s.statut_salle === 'actif')
         .map(s => `<option value="${s.code_salle}">${esc(s.libelle_salle)}</option>`).join('');
       $('#emp-salle').find('option:not(:first)').remove().end().append(opts);
@@ -84,7 +84,7 @@ $(document).ready(function () {
       jour:            $('#f-emp-jour').val(),
     });
 
-    $.get('/api/emplois-temps/liste?' + params.toString(), function (res) {
+    $.get('/appeicg/emplois-temps/liste?' + params.toString(), function (res) {
       currentData = res.data || [];
       $('#emp-count').text(`${currentData.length} créneau${currentData.length > 1 ? 'x' : ''}`);
 
@@ -218,7 +218,7 @@ $(document).ready(function () {
     $('#emp-salle').val(emploi.salle_code);
 
     // Retrouver l'id_annee depuis le libelle
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const annee = (res.data || []).find(a => a.libelle_annee === emploi.annee_code);
       if (annee) $('#emp-annee').val(annee.id_annee);
     });
@@ -232,7 +232,7 @@ $(document).ready(function () {
     const code = $(this).data('code');
     if (!confirm('Supprimer ce créneau ?')) return;
     $(this).prop('disabled', true);
-    $.post('/api/emplois-temps/supprimer', { code_emploi: code }, function (res) {
+    $.post('/appeicg/emplois-temps/supprimer', { code_emploi: code }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadEmplois(); }
       else showToast(res.message, 'error');
     });
@@ -270,7 +270,7 @@ $(document).ready(function () {
     if (code) data.code_emploi = code;
 
     $.ajax({
-      url: code ? '/api/emplois-temps/modifier' : '/api/emplois-temps/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/emplois-temps/modifier' : '/appeicg/emplois-temps/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving(false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-emp'); loadEmplois(); }

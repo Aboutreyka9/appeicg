@@ -9,7 +9,7 @@ $(document).ready(function () {
 
   // ─── Charger les selects (années + filières) ──────────────
   function loadSelects() {
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const $sel = $('#classe-annee, #filter-annee');
       $sel.find('option:not(:first)').remove();
       (res.data || []).filter(a => a.statut_annee === 'actif').forEach(function (a) {
@@ -17,7 +17,7 @@ $(document).ready(function () {
       });
     });
 
-    $.get('/api/filieres/liste', function (res) {
+    $.get('/appeicg/filieres/liste', function (res) {
       const $sel = $('#classe-filiere, #filter-filiere');
       $sel.find('option:not(:first)').remove();
       (res.data || []).filter(f => f.statut_filiere === 'actif').forEach(function (f) {
@@ -35,7 +35,7 @@ $(document).ready(function () {
     $niv.prop('disabled', !filiereCode);
     if (!filiereCode) return;
 
-    $.get(`/api/niveaux/liste?filiere_code=${filiereCode}`, function (res) {
+    $.get(`/appeicg/niveaux/liste?filiere_code=${filiereCode}`, function (res) {
       (res.data || []).filter(n => n.statut_niveau === 'actif').forEach(function (n) {
         $niv.append(`<option value="${n.code_niveau}">${esc(n.libelle_niveau)}</option>`);
       });
@@ -46,7 +46,7 @@ $(document).ready(function () {
   function loadClasses() {
     const anneeId  = $('#filter-annee').val();
     const filiere  = $('#filter-filiere').val();
-    let url = '/api/classes/liste?';
+    let url = '/appeicg/classes/liste?';
     if (anneeId)  url += `annee_code=${anneeId}&`;
     if (filiere)  url += `niveau_code=${filiere}`;
 
@@ -153,7 +153,7 @@ $(document).ready(function () {
     if (!ok) return;
 
     setSaving(true);
-    const url  = editMode ? '/api/classes/modifier' : '/api/classes/ajouter';
+    const url  = editMode ? '/appeicg/classes/modifier' : '/appeicg/classes/ajouter';
     const data = {
       libelle_classe:      libelle,
       annee_code:          anneeId,
@@ -185,7 +185,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cette classe ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/classes/statut', { code_classe: code, statut_classe: statut }, function (res) {
+    $.post('/appeicg/classes/statut', { code_classe: code, statut_classe: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadClasses(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });

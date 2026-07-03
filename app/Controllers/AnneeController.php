@@ -26,11 +26,11 @@ class AnneeController extends MainController
 
     public function index()
     {
-        return $this->viewGuest('configurations/annees', ["title" => "annee"]);
+        return $this->view('configurations/annees', ["title" => "annee"]);
     }
 
     /**
-     * GET /api/annees/liste
+     * GET /appeicg/annees/liste
      */
     public function liste(): void
     {
@@ -39,7 +39,7 @@ class AnneeController extends MainController
     }
 
     /**
-     * POST /api/annees/ajouter
+     * POST /appeicg/annees/ajouter
      */
     public function ajouter(): void
     {
@@ -79,7 +79,7 @@ class AnneeController extends MainController
     }
 
     /**
-     * POST /api/annees/modifier
+     * POST /appeicg/annees/modifier
      */
     public function modifier(): void
     {
@@ -123,7 +123,7 @@ class AnneeController extends MainController
     }
 
     /**
-     * POST /api/annees/statut
+     * POST /appeicg/annees/statut
      */
     public function statut(): void
     {

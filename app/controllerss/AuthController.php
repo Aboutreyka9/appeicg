@@ -18,7 +18,7 @@ class AuthControllerss
     }
 
     /**
-     * POST /api/auth/login
+     * POST /appeicg/auth/login
      */
     public function login(): void
     {
@@ -45,7 +45,7 @@ class AuthControllerss
     }
 
     /**
-     * POST /api/auth/logout
+     * POST /appeicg/auth/logout
      */
     public function logout(): void
     {
@@ -54,7 +54,7 @@ class AuthControllerss
     }
 
     /**
-     * GET /api/auth/check
+     * GET /appeicg/auth/check
      */
     public function check(): void
     {

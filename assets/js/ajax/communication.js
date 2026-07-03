@@ -22,19 +22,19 @@ $(document).ready(function () {
   // SELECTS GLOBAUX
   // ═══════════════════════════════════════════════════════════
   function loadSelects() {
-    $.get('/api/filieres/liste', function (res) {
+    $.get('/appeicg/filieres/liste', function (res) {
       const opts = (res.data || []).filter(f => f.statut_filiere === 'actif')
         .map(f => `<option value="${f.code_filiere}">${esc(f.libelle_filiere)}</option>`).join('');
       $('#d-filiere, #doc-filiere').find('option:not(:first)').remove().end().append(opts);
     });
 
-    $.get('/api/niveaux/liste', function (res) {
+    $.get('/appeicg/niveaux/liste', function (res) {
       const opts = (res.data || []).filter(n => n.statut_niveau === 'actif')
         .map(n => `<option value="${n.code_niveau}">${esc(n.libelle_niveau)}</option>`).join('');
       $('#d-niveau').find('option:not(:first)').remove().end().append(opts);
     });
 
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const opts = (res.data || []).map(a => `<option value="${a.libelle_annee}">${esc(a.libelle_annee)}</option>`).join('');
       $('#d-annee, #doc-annee').find('option:not(:first)').remove().end().append(opts);
     });
@@ -47,7 +47,7 @@ $(document).ready(function () {
     const $niv = $('#doc-niveau');
     $niv.find('option:not(:first)').remove().prop('disabled', !fil);
     if (!fil) return;
-    $.get(`/api/niveaux/liste?filiere_code=${fil}`, function (res) {
+    $.get(`/appeicg/niveaux/liste?filiere_code=${fil}`, function (res) {
       (res.data || []).filter(n => n.statut_niveau === 'actif').forEach(n => {
         $niv.append(`<option value="${n.code_niveau}">${esc(n.libelle_niveau)}</option>`);
       });
@@ -64,7 +64,7 @@ $(document).ready(function () {
       niveaux_code: $('#d-niveau').val(),
       annee_code:   $('#d-annee').val(),
     });
-    $.get('/api/documents/liste?' + params.toString(), function (res) {
+    $.get('/appeicg/documents/liste?' + params.toString(), function (res) {
       const docs = res.data || [];
       $('#docs-count').text(`${docs.length} document${docs.length > 1 ? 's' : ''}`);
       const $tbody = $('#tbody-docs');
@@ -150,7 +150,7 @@ $(document).ready(function () {
     const data = { libelle_document: libelle, lien_document: lien, filiere_code: filiere, niveaux_code: niveau, annee_code: annee };
     if (id) data.id_document = id;
     $.ajax({
-      url: id ? '/api/documents/modifier' : '/api/documents/ajouter', method: 'POST', data,
+      url: id ? '/appeicg/documents/modifier' : '/appeicg/documents/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('doc', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-doc'); loadDocuments(); }
@@ -164,7 +164,7 @@ $(document).ready(function () {
     const id = $(this).data('id');
     if (!confirm('Supprimer ce document ?')) return;
     $(this).prop('disabled', true);
-    $.post('/api/documents/supprimer', { id_document: id }, function (res) {
+    $.post('/appeicg/documents/supprimer', { id_document: id }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadDocuments(); }
       else showToast(res.message, 'error');
     });
@@ -178,7 +178,7 @@ $(document).ready(function () {
 
   function loadMessages() {
     const statut = $('#f-msg-statut').val();
-    $.get('/api/messages/liste' + (statut ? `?statut=${statut}` : ''), function (res) {
+    $.get('/appeicg/messages/liste' + (statut ? `?statut=${statut}` : ''), function (res) {
       const msgs = res.data || [];
       const $list = $('#messages-list');
       $list.empty();
@@ -239,7 +239,7 @@ $(document).ready(function () {
     if (!desc)  { showErr('msg-desc',  'Le contenu est obligatoire.'); ok = false; }
     if (!ok) return;
     setSaving('msg', true);
-    $.post('/api/messages/creer', { objet_message: objet, description_message: desc }, function (res) {
+    $.post('/appeicg/messages/creer', { objet_message: objet, description_message: desc }, function (res) {
       setSaving('msg', false);
       if (res.success) { showToast(res.message, 'success'); closeModal('modal-msg'); loadMessages(); }
       else showToast(res.message, 'error');
@@ -249,7 +249,7 @@ $(document).ready(function () {
   $(document).on('click', '.btn-msg-statut', function () {
     const id = $(this).data('id'); const statut = $(this).data('statut');
     $(this).prop('disabled', true);
-    $.post('/api/messages/statut', { id_message: id, statut_message: statut }, function (res) {
+    $.post('/appeicg/messages/statut', { id_message: id, statut_message: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadMessages(); }
       else showToast(res.message, 'error');
     });
@@ -259,7 +259,7 @@ $(document).ready(function () {
     const id = $(this).data('id');
     if (!confirm('Supprimer ce message ?')) return;
     $(this).prop('disabled', true);
-    $.post('/api/messages/supprimer', { id_message: id }, function (res) {
+    $.post('/appeicg/messages/supprimer', { id_message: id }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadMessages(); }
       else showToast(res.message, 'error');
     });
@@ -269,7 +269,7 @@ $(document).ready(function () {
   // ÉVÉNEMENTS
   // ═══════════════════════════════════════════════════════════
   function loadEvenements() {
-    $.get('/api/evenements/liste', function (res) {
+    $.get('/appeicg/evenements/liste', function (res) {
       const evs  = res.data || [];
       const $list = $('#evenements-list');
       $list.empty();
@@ -346,7 +346,7 @@ $(document).ready(function () {
     };
     if (id) data.id_evenement = id;
     $.ajax({
-      url: id ? '/api/evenements/modifier' : '/api/evenements/ajouter', method: 'POST', data,
+      url: id ? '/appeicg/evenements/modifier' : '/appeicg/evenements/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('ev', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-ev'); loadEvenements(); }
@@ -360,7 +360,7 @@ $(document).ready(function () {
     const $btn = $(this); const id = $btn.data('id'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cet événement ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/evenements/statut', { id_evenement: id, statut_evenement: statut }, function (res) {
+    $.post('/appeicg/evenements/statut', { id_evenement: id, statut_evenement: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadEvenements(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -370,7 +370,7 @@ $(document).ready(function () {
     const id = $(this).data('id');
     if (!confirm('Supprimer cet événement ?')) return;
     $(this).prop('disabled', true);
-    $.post('/api/evenements/supprimer', { id_evenement: id }, function (res) {
+    $.post('/appeicg/evenements/supprimer', { id_evenement: id }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadEvenements(); }
       else showToast(res.message, 'error');
     });

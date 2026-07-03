@@ -19,7 +19,7 @@ class FiliereController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new FiliereModel();
         $this->cycleModel        = new CycleModel();
         $this->etablissementCode = AuthService::getEtablissementCode();

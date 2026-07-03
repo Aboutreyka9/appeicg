@@ -26,7 +26,7 @@ class MatiereController extends MainController
 
              public function index()
     {
-        return $this->viewGuest('academiques/matieres', ["title" => "Matiere"]);
+        return $this->view('academiques/matieres', ["title" => "Matiere"]);
     }
 
     public function liste(): void

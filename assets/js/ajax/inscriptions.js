@@ -22,7 +22,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadSelectsGlobal() {
     // Années
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const opts = (res.data || []).map(a => `<option value="${a.libelle_annee}">${esc(a.libelle_annee)}</option>`).join('');
       $('#f-annee').find('option:not(:first)').remove().end().append(opts);
       const optsModal = (res.data || []).map(a => `<option value="${a.id_annee}">${esc(a.libelle_annee)}</option>`).join('');
@@ -30,13 +30,13 @@ $(document).ready(function () {
     });
 
     // Classes
-    $.get('/api/classes/liste', function (res) {
+    $.get('/appeicg/classes/liste', function (res) {
       const opts = (res.data || []).map(c => `<option value="${c.code_classe}">${esc(c.libelle_classe)}</option>`).join('');
       $('#f-classe').find('option:not(:first)').remove().end().append(opts);
     });
 
     // Étudiants actifs
-    $.get('/api/etudiants/liste?statut=actif', function (res) {
+    $.get('/appeicg/etudiants/liste?statut=actif', function (res) {
       const opts = (res.data || []).map(e =>
         `<option value="${e.code_etudiant}">${esc(e.nom_etudiant)} ${esc(e.prenom_etudiant)} (${esc(e.matricule_etudiant)})</option>`
       ).join('');
@@ -44,7 +44,7 @@ $(document).ready(function () {
     });
 
     // Filières
-    $.get('/api/filieres/liste', function (res) {
+    $.get('/appeicg/filieres/liste', function (res) {
       const opts = (res.data || []).filter(f => f.statut_filiere === 'actif')
         .map(f => `<option value="${f.code_filiere}">${esc(f.libelle_filiere)}</option>`).join('');
       $('#ins-filiere').find('option:not(:first)').remove().end().append(opts);
@@ -59,7 +59,7 @@ $(document).ready(function () {
     const $cls    = $('#ins-classe');
     $cls.find('option:not(:first)').remove().prop('disabled', !filiere);
     if (!filiere) return;
-    let url = `/api/classes/liste?`;
+    let url = `/appeicg/classes/liste?`;
     if (anneeId) url += `annee_code=${anneeId}&`;
     $.get(url, function (res) {
       (res.data || []).filter(c => c.code_filiere === filiere && c.statut_classe === 'actif').forEach(c => {
@@ -79,7 +79,7 @@ $(document).ready(function () {
       search:      $('#f-search').val().trim(),
     });
 
-    $.get('/api/inscriptions/liste?' + params.toString(), function (res) {
+    $.get('/appeicg/inscriptions/liste?' + params.toString(), function (res) {
       const ins = res.data || [];
       $('#ins-count').text(`${ins.length} inscription${ins.length > 1 ? 's' : ''}`);
       const $tbody = $('#tbody-ins');
@@ -173,7 +173,7 @@ $(document).ready(function () {
     if (!ok) return;
 
     setSaving('ins', true);
-    $.post('/api/inscriptions/ajouter', {
+    $.post('/appeicg/inscriptions/ajouter', {
       etudiant_code: etu, classe_code: classe, annee_id: anneeId,
       montant_scolarite_inscription: $('#ins-montant').val() || 0,
     }, function (res) {
@@ -198,7 +198,7 @@ $(document).ready(function () {
 
   $('#btn-save-mont').on('click', function () {
     setSaving('mont', true);
-    $.post('/api/inscriptions/modifier-montant', {
+    $.post('/appeicg/inscriptions/modifier-montant', {
       code_inscription: $('#mont-ins-code').val(),
       montant_scolarite_inscription: $('#mont-valeur').val(),
     }, function (res) {
@@ -216,7 +216,7 @@ $(document).ready(function () {
     const labels = { solde: 'marquer comme soldé', annule: 'annuler' };
     if (!confirm(`Voulez-vous vraiment ${labels[statut] || statut} cette inscription ?`)) return;
     $(this).prop('disabled', true);
-    $.post('/api/inscriptions/statut', { code_inscription: code, statut_inscription: statut }, function (res) {
+    $.post('/appeicg/inscriptions/statut', { code_inscription: code, statut_inscription: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadInscriptions(); }
       else showToast(res.message, 'error');
     });
@@ -227,7 +227,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadInsAccessoires(insCode) {
     const $c = $(`#acc-list-${insCode}`);
-    $.get(`/api/inscriptions/accessoires?inscription_code=${insCode}`, function (res) {
+    $.get(`/appeicg/inscriptions/accessoires?inscription_code=${insCode}`, function (res) {
       const accs = res.data || [];
       if (!accs.length) { $c.html('<p class="text-sm text-muted">Aucun accessoire associé.</p>'); return; }
       let html = '<div style="display:flex;flex-wrap:wrap;gap:8px;">';
@@ -247,7 +247,7 @@ $(document).ready(function () {
     e.stopPropagation();
     const insCode = $(this).data('ins-code');
     // Ouvrir un mini-modal via confirm-like avec select
-    $.get('/api/accessoires/liste', function (res) {
+    $.get('/appeicg/accessoires/liste', function (res) {
       const actifs = (res.data || []).filter(a => a.statut_accessoire === 'actif');
       if (!actifs.length) { showToast('Aucun accessoire disponible. Créez-en d\'abord dans l\'onglet Accessoires.', 'warning'); return; }
 
@@ -261,7 +261,7 @@ $(document).ready(function () {
       const idx = parseInt(chosen, 10) - 1;
       if (isNaN(idx) || idx < 0 || idx >= actifs.length) { showToast('Sélection invalide.', 'error'); return; }
 
-      $.post('/api/inscriptions/accessoires/ajouter', {
+      $.post('/appeicg/inscriptions/accessoires/ajouter', {
         inscription_code: insCode, accessoire_code: actifs[idx].code_accessoire
       }, function (res) {
         if (res.success) { showToast(res.message, 'success'); loadInsAccessoires(insCode); }
@@ -274,7 +274,7 @@ $(document).ready(function () {
     e.stopPropagation();
     const code = $(this).data('code'); const ins = $(this).data('ins');
     if (!confirm('Retirer cet accessoire ?')) return;
-    $.post('/api/inscriptions/accessoires/retirer', { code_accessoire_inscription: code }, function (res) {
+    $.post('/appeicg/inscriptions/accessoires/retirer', { code_accessoire_inscription: code }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadInsAccessoires(ins); }
       else showToast(res.message, 'error');
     });
@@ -284,7 +284,7 @@ $(document).ready(function () {
   // ACCESSOIRES (référentiel)
   // ═══════════════════════════════════════════════════════════
   function loadAccessoires() {
-    $.get('/api/accessoires/liste', function (res) {
+    $.get('/appeicg/accessoires/liste', function (res) {
       const accs = res.data || [];
       const $tbody = $('#tbody-acc');
       $tbody.empty();
@@ -332,7 +332,7 @@ $(document).ready(function () {
     const data = { libelle_accessoire: libelle };
     if (code) data.code_accessoire = code;
     $.ajax({
-      url: code ? '/api/accessoires/modifier' : '/api/accessoires/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/accessoires/modifier' : '/appeicg/accessoires/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('acc', false);
         if (res.success) { showToast(res.message, 'success'); closeModal('modal-acc'); loadAccessoires(); }
@@ -346,7 +346,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cet accessoire ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/accessoires/statut', { code_accessoire: code, statut_accessoire: statut }, function (res) {
+    $.post('/appeicg/accessoires/statut', { code_accessoire: code, statut_accessoire: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadAccessoires(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });

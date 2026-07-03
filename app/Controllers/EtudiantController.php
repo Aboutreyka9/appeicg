@@ -35,7 +35,7 @@ class EtudiantController extends MainController
 
         public function index()
     {
-        return $this->viewGuest('etudiants/liste', ["title" => "Etudiants"]);
+        return $this->view('etudiants/liste', ["title" => "Etudiants"]);
     }
 
     // ─── Étudiants ────────────────────────────────────────────

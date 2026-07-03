@@ -6,7 +6,7 @@ $(document).ready(function () {
 
   // ─── Charger enseignants ──────────────────────────────────
   function loadEnseignants() {
-    $.get('/api/enseignants/liste', function (res) {
+    $.get('/appeicg/enseignants/liste', function (res) {
       const ens = res.data || [];
       $('#ens-count').text(`${ens.length} enseignant${ens.length > 1 ? 's' : ''}`);
       const $tbody = $('#tbody-ens');
@@ -91,7 +91,7 @@ $(document).ready(function () {
   function loadMatieresList(ensCode) {
     const $c = $(`#matlist-${ensCode}`);
     $c.html('<p class="text-sm text-muted">Chargement…</p>');
-    $.get(`/api/enseignants/matieres?enseignant_code=${ensCode}`, function (res) {
+    $.get(`/appeicg/enseignants/matieres?enseignant_code=${ensCode}`, function (res) {
       const mats = res.data || [];
       if (!mats.length) { $c.html('<p class="text-sm text-muted">Aucune matière affectée.</p>'); return; }
       const tags = mats.filter(m => m.statut_enseignant_matiere === 'actif').map(m =>
@@ -108,7 +108,7 @@ $(document).ready(function () {
     e.stopPropagation();
     const ensCode = $(this).data('ens'); const matCode = $(this).data('mat');
     if (!confirm('Retirer cette matière ?')) return;
-    $.post('/api/enseignants/retirer', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
+    $.post('/appeicg/enseignants/retirer', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadMatieresList(ensCode); loadEnseignants(); }
       else showToast(res.message, 'error');
     });
@@ -152,7 +152,7 @@ $(document).ready(function () {
     };
     if (code) data.code_enseignant = code;
     $.ajax({
-      url: code ? '/api/enseignants/modifier' : '/api/enseignants/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/enseignants/modifier' : '/appeicg/enseignants/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving(false);
         if (res.success) {
@@ -176,7 +176,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cet enseignant ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/enseignants/statut', { code_enseignant: code, statut_enseignant: statut }, function (res) {
+    $.post('/appeicg/enseignants/statut', { code_enseignant: code, statut_enseignant: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadEnseignants(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -190,7 +190,7 @@ $(document).ready(function () {
     $('#aff-ens-nom').text(nom);
     loadAffMatieres(code);
     // Charger la liste des matières disponibles
-    $.get('/api/matieres/liste', function (res) {
+    $.get('/appeicg/matieres/liste', function (res) {
       const $sel = $('#aff-matiere-select');
       $sel.find('option:not(:first)').remove();
       (res.data || []).filter(m => m.statut_matiere === 'actif').forEach(m => {
@@ -202,7 +202,7 @@ $(document).ready(function () {
 
   function loadAffMatieres(ensCode) {
     const $c = $('#aff-matieres-list');
-    $.get(`/api/enseignants/matieres?enseignant_code=${ensCode}`, function (res) {
+    $.get(`/appeicg/enseignants/matieres?enseignant_code=${ensCode}`, function (res) {
       const mats = (res.data || []).filter(m => m.statut_enseignant_matiere === 'actif');
       if (!mats.length) { $c.html('<p class="text-sm text-muted">Aucune matière affectée.</p>'); return; }
       const tags = mats.map(m =>
@@ -219,7 +219,7 @@ $(document).ready(function () {
     const matCode = $('#aff-matiere-select').val();
     if (!matCode) { showToast('Sélectionnez une matière.', 'warning'); return; }
     $(this).prop('disabled', true);
-    $.post('/api/enseignants/affecter', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
+    $.post('/appeicg/enseignants/affecter', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
       $('#btn-affecter').prop('disabled', false);
       if (res.success) { showToast(res.message, 'success'); loadAffMatieres(ensCode); loadEnseignants(); }
       else showToast(res.message, 'error');
@@ -232,7 +232,7 @@ $(document).ready(function () {
   $(document).on('click', '.remove-aff', function () {
     const ensCode = $('#aff-ens-code').val(); const matCode = $(this).data('mat');
     if (!confirm('Retirer cette matière ?')) return;
-    $.post('/api/enseignants/retirer', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
+    $.post('/appeicg/enseignants/retirer', { enseignant_code: ensCode, matiere_code: matCode }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadAffMatieres(ensCode); loadEnseignants(); }
       else showToast(res.message, 'error');
     });

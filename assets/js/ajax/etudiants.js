@@ -13,7 +13,7 @@ $(document).ready(function () {
   // LISTE ÉTUDIANTS
   // ═══════════════════════════════════════════════════════════
   function loadEtudiants() {
-    let url = '/api/etudiants/liste?';
+    let url = '/appeicg/etudiants/liste?';
     if (currentSearch) url += `search=${encodeURIComponent(currentSearch)}&`;
     if (currentStatut) url += `statut=${currentStatut}`;
 
@@ -187,7 +187,7 @@ $(document).ready(function () {
     if (code) data.code_etudiant = code;
 
     $.ajax({
-      url: code ? '/api/etudiants/modifier' : '/api/etudiants/ajouter', method: 'POST', data,
+      url: code ? '/appeicg/etudiants/modifier' : '/appeicg/etudiants/ajouter', method: 'POST', data,
       success: function (res) {
         setSaving('etu', false);
         if (res.success) {
@@ -211,7 +211,7 @@ $(document).ready(function () {
     const $btn = $(this); const code = $btn.data('code'); const statut = $btn.data('statut');
     if (!confirm(`${statut === 'actif' ? 'Activer' : 'Désactiver'} cet étudiant ?`)) return;
     $btn.prop('disabled', true);
-    $.post('/api/etudiants/statut', { code_etudiant: code, statut_etudiant: statut }, function (res) {
+    $.post('/appeicg/etudiants/statut', { code_etudiant: code, statut_etudiant: statut }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadEtudiants(); }
       else { showToast(res.message, 'error'); $btn.prop('disabled', false); }
     });
@@ -230,7 +230,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadParentView(etuCode) {
     const $c = $(`#parent-view-${etuCode}`);
-    $.get(`/api/etudiants/parent?etudiant_code=${etuCode}`, function (res) {
+    $.get(`/appeicg/etudiants/parent?etudiant_code=${etuCode}`, function (res) {
       const p = res.data || {};
       const hasData = p.nom_pere || p.nom_mere || p.nom_tuteur;
 
@@ -262,7 +262,7 @@ $(document).ready(function () {
     $('#parent-etu-code').val(code);
     $('#parent-etu-nom').text($(`.btn-edit-etu[data-code="${code}"]`).data('nom') + ' ' + $(`.btn-edit-etu[data-code="${code}"]`).data('prenom'));
 
-    $.get(`/api/etudiants/parent?etudiant_code=${code}`, function (res) {
+    $.get(`/appeicg/etudiants/parent?etudiant_code=${code}`, function (res) {
       const p = res.data || {};
       $('#p-nom-pere').val(p.nom_pere || '');
       $('#p-tel-pere').val(p.telephone_pere || '');
@@ -284,7 +284,7 @@ $(document).ready(function () {
       nom_mere: $('#p-nom-mere').val().trim(), telephone_mere: $('#p-tel-mere').val().trim(), profession_mere: $('#p-prof-mere').val().trim(),
       nom_tuteur: $('#p-nom-tuteur').val().trim(), telephone_tuteur: $('#p-tel-tuteur').val().trim(),
     };
-    $.post('/api/etudiants/parent/sauver', data, function (res) {
+    $.post('/appeicg/etudiants/parent/sauver', data, function (res) {
       setSaving('parent', false);
       if (res.success) {
         showToast(res.message, 'success');
@@ -302,7 +302,7 @@ $(document).ready(function () {
   // ═══════════════════════════════════════════════════════════
   function loadDossierView(etuCode) {
     const $c = $(`#dossier-view-${etuCode}`);
-    $.get(`/api/etudiants/dossiers?etudiant_code=${etuCode}`, function (res) {
+    $.get(`/appeicg/etudiants/dossiers?etudiant_code=${etuCode}`, function (res) {
       const docs = res.data || [];
       if (!docs.length) { $c.html('<p class="text-sm text-muted">Aucun document dans le dossier.</p>'); return; }
       let html = '';
@@ -328,7 +328,7 @@ $(document).ready(function () {
     clearErr('dos-libelle');
 
     // Charger les années
-    $.get('/api/annees/liste', function (res) {
+    $.get('/appeicg/annees/liste', function (res) {
       const $sel = $('#dos-annee');
       $sel.find('option:not(:first)').remove();
       (res.data || []).forEach(a => $sel.append(`<option value="${a.id_annee}">${esc(a.libelle_annee)}</option>`));
@@ -344,7 +344,7 @@ $(document).ready(function () {
     setSaving('dos', true);
 
     const etuCode = $('#dos-etu-code').val();
-    $.post('/api/etudiants/dossiers/ajouter', {
+    $.post('/appeicg/etudiants/dossiers/ajouter', {
       etudiant_code: etuCode, libelle_dossier: libelle, annee_id: $('#dos-annee').val()
     }, function (res) {
       setSaving('dos', false);
@@ -362,7 +362,7 @@ $(document).ready(function () {
   $(document).on('click', '.btn-del-doc', function () {
     const code = $(this).data('code'); const etu = $(this).data('etu');
     if (!confirm('Supprimer ce document du dossier ?')) return;
-    $.post('/api/etudiants/dossiers/supprimer', { code_dossier_etudiant: code }, function (res) {
+    $.post('/appeicg/etudiants/dossiers/supprimer', { code_dossier_etudiant: code }, function (res) {
       if (res.success) { showToast(res.message, 'success'); loadDossierView(etu); }
       else showToast(res.message, 'error');
     });
