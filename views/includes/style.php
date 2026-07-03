@@ -14,6 +14,9 @@
    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
    <link rel="stylesheet" href="<?=  ASSETS?>css/app.css">
+<!-- To delete -->
+  <link rel="stylesheet" href="<?=  ASSETS?>other/css/app.css">
+
 
    <script src="<?=  ASSETS?>js/plugin/webfont/webfont.min.js"></script>
    <script>

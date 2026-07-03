@@ -5,6 +5,9 @@ namespace App\Middlewares;
 
 class AuthMiddleware 
 {
+
+
+
    
     // public static function authenticated() {
 

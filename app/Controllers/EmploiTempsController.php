@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\EmploiTempsModel;
 use App\Models\ClasseModel;
 use App\Models\MatiereModel;
@@ -14,7 +15,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class EmploiTempsController
+class EmploiTempsController extends MainController
 {
     private EmploiTempsModel $model;
     private ClasseModel      $classeModel;
@@ -29,7 +30,6 @@ class EmploiTempsController
 
     public function __construct()
     {
-        AuthService::requireAuth();
         $this->model           = new EmploiTempsModel();
         $this->classeModel     = new ClasseModel();
         $this->matiereModel    = new MatiereModel();
@@ -38,6 +38,11 @@ class EmploiTempsController
         $this->anneeModel      = new AnneeModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+            public function index()
+    {
+        return $this->viewGuest('academiques/emplois_temps', ["title" => "Emplois du temps"]);
     }
 
     public function liste(): void

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\MatiereModel;
 use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class MatiereController
+class MatiereController extends MainController
 {
     private MatiereModel $model;
     private string $etablissementCode;
@@ -17,10 +18,15 @@ class MatiereController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new MatiereModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+             public function index()
+    {
+        return $this->viewGuest('academiques/matieres', ["title" => "Matiere"]);
     }
 
     public function liste(): void

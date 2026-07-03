@@ -4,19 +4,27 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Auth;
+use App\Core\MainController;
 use App\Models\EtablissementModel;
 use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class EtablissementController
+class EtablissementController extends MainController
 {
     private EtablissementModel $model;
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        Auth::requireAuth();
         $this->model = new EtablissementModel();
+    }
+
+
+         public function index()
+    {
+        return $this->viewGuest('configurations/etablissements', ["title" => "Etablissement"]);
     }
 
     /**

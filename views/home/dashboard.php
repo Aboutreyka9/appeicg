@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord — <?= htmlspecialchars($_ENV['APP_NAME'] ?? 'EICG') ?></title>
-  <link rel="stylesheet" href="/assets/css/app.css">
-</head>
-<body>
 
-<div class="layout">
 
-  <?php require __DIR__ . '/partials/sidebar.php'; ?>
+
+<!-- SIDE -->
 
   <div class="main">
 
@@ -73,12 +64,12 @@
           </div>
           <div class="card-body">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-              <a href="/etudiants" class="btn btn-outline" style="justify-content:center;">👨‍🎓 Étudiants</a>
-              <a href="/inscriptions" class="btn btn-outline" style="justify-content:center;">📋 Inscriptions</a>
-              <a href="/notes" class="btn btn-outline" style="justify-content:center;">📝 Notes</a>
-              <a href="/paiements" class="btn btn-outline" style="justify-content:center;">💳 Paiements</a>
-              <a href="/emplois-du-temps" class="btn btn-outline" style="justify-content:center;">🗓 Emplois du temps</a>
-              <a href="/etablissements" class="btn btn-outline" style="justify-content:center;">🏫 Établissements</a>
+              <a href="<?= url('etudiants') ?>" class="btn btn-outline" style="justify-content:center;">👨‍🎓 Étudiants</a>
+              <a href="<?= url('inscriptions') ?>" class="btn btn-outline" style="justify-content:center;">📋 Inscriptions</a>
+              <a href="<?= url('notes') ?>" class="btn btn-outline" style="justify-content:center;">📝 Notes</a>
+              <a href="<?= url('paiements') ?>" class="btn btn-outline" style="justify-content:center;">💳 Paiements</a>
+              <a href="<?= url('emplois-du-temps') ?>" class="btn btn-outline" style="justify-content:center;">🗓 Emplois du temps</a>
+              <a href="<?= url('etablissements') ?>" class="btn btn-outline" style="justify-content:center;">🏫 Établissements</a>
             </div>
           </div>
         </div>
@@ -121,14 +112,3 @@
 <!-- Toast -->
 <div class="toast-container" id="toast-container"></div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/assets/js/ajax/auth.js"></script>
-<script>
-  // Date dans le topbar
-  const now = new Date();
-  document.getElementById('topbar-date').textContent = now.toLocaleDateString('fr-FR', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
-</script>
-</body>
-</html>

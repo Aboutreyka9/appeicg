@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\EtudiantModel;
 use App\Models\ParentModel;
 use App\Models\DossierEtudiantModel;
@@ -12,7 +13,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class EtudiantController
+class EtudiantController extends MainController
 {
     private EtudiantModel       $model;
     private ParentModel         $parentModel;
@@ -23,13 +24,18 @@ class EtudiantController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new EtudiantModel();
         $this->parentModel       = new ParentModel();
         $this->dossierModel      = new DossierEtudiantModel();
         $this->anneeModel        = new AnneeModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+        public function index()
+    {
+        return $this->viewGuest('etudiants/liste', ["title" => "Etudiants"]);
     }
 
     // ─── Étudiants ────────────────────────────────────────────

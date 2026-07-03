@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\EnseignantModel;
 use App\Models\MatiereModel;
 use App\Models\EnseignantMatiereModel;
@@ -11,7 +12,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class EnseignantController
+class EnseignantController extends MainController
 {
     private EnseignantModel        $model;
     private MatiereModel           $matiereModel;
@@ -21,12 +22,17 @@ class EnseignantController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new EnseignantModel();
         $this->matiereModel      = new MatiereModel();
         $this->affModel          = new EnseignantMatiereModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+    public function index()
+    {
+        return $this->viewGuest('enseignants/liste', ["title" => "Enseignants"]);
     }
 
     public function liste(): void

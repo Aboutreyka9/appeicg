@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\AnneeModel;
 use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class AnneeController
+class AnneeController extends MainController
 {
     private AnneeModel $model;
     private string $etablissementCode;
@@ -17,10 +18,15 @@ class AnneeController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new AnneeModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+    public function index()
+    {
+        return $this->viewGuest('configurations/annees', ["title" => "annee"]);
     }
 
     /**

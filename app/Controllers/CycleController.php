@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\CycleModel;
 use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class CycleController
+class CycleController extends MainController
 {
     private CycleModel $model;
     private string $etablissementCode;
@@ -17,10 +18,15 @@ class CycleController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new CycleModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+     public function index()
+    {
+        return $this->viewGuest('academiques/cycles', ["title" => "cycles"]);
     }
 
     public function liste(): void

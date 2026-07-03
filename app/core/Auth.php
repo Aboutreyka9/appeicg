@@ -143,5 +143,20 @@ class Auth
         http_response_code(302);
         exit;
     }
+
+    public static function requireAuth(): void
+    {
+
+
+        if (!self::check()) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'code'    => 401,
+                'message' => 'Non authentifié. Veuillez vous connecter.',
+            ]);
+            exit;
+        }
+    }
   
 }

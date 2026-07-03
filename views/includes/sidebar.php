@@ -14,7 +14,7 @@
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
                             <?= (string) auth()->user("nom")?>
-                            <span class="user-level text-success"><?= (string) auth()->user("fonction")?></span>
+                            <span class="user-level text-success"><?= (string) auth()->user("id")?></span>
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -23,7 +23,7 @@
                     <div class="collapse in" id="collapseExample">
                         <ul class="nav">
                             <li>
-                                <a class="item-link" href="<?=  route('user.profile',['code' => auth()->user('id')])?>">
+                                <a class="item-link" href="<?=  url('user.profile',['code' => auth()->user('id')])?>">
                                     <span class="link-collapse">Profile</span>
                                 </a>
                             </li>
@@ -42,7 +42,7 @@
 
             <ul class="nav nav-primary">
                 <li class="nav-item">
-                    <a style="background: #8debfcf1;" class=""  href="<?= route('home') ?>">
+                    <a style="background: #8debfcf1;" class=""  href="<?= url('home') ?>">
                         <i class="fas fa-home"></i>
                     <p>ACCUEIL</p>
                     </a>

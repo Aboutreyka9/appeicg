@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\InscriptionModel;
 use App\Models\EtudiantModel;
 use App\Models\ClasseModel;
@@ -13,7 +14,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class InscriptionController
+class InscriptionController extends MainController
 {
     private InscriptionModel $model;
     private EtudiantModel    $etudiantModel;
@@ -25,7 +26,7 @@ class InscriptionController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new InscriptionModel();
         $this->etudiantModel     = new EtudiantModel();
         $this->classeModel       = new ClasseModel();
@@ -33,6 +34,11 @@ class InscriptionController
         $this->accModel          = new AccessoireModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+    public function index()
+    {
+        return $this->viewGuest('etudiants/inscriptions', ["title" => "Inscription"]);
     }
 
     // ─── Inscriptions ─────────────────────────────────────────

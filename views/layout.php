@@ -148,8 +148,21 @@
 </div>
 
 
+
     <!--   Core JS Files   -->
     <?php include 'includes/script.php' ?>
+
+<script src="<?=  ASSETS?>othe5r/js/ajax/auth.js"></script>
+<script src="<?=  ASSETS?>othe5r/js/ajax/etablissements.js"></script>
+
+<script>
+  // Date dans le topbar
+  const now = new Date();
+  document.getElementById('topbar-date').textContent = now.toLocaleDateString('fr-FR', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+</script>
+
      <!-- QRCode.js (librairie légère pour générer les QR codes côté navigateur) -->
   <script src="<?= ASSETS ?>js/qrcode.min.js"></script>
 

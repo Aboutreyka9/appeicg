@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\PaiementModel;
 use App\Models\InscriptionModel;
 use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class PaiementController
+class PaiementController extends MainController
 {
     private PaiementModel    $model;
     private InscriptionModel $inscriptionModel;
@@ -19,13 +20,18 @@ class PaiementController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new PaiementModel();
         $this->inscriptionModel  = new InscriptionModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
     }
 
+        public function index()
+    {
+        return $this->viewGuest('finances/paiements', ["title" => "Paiements"]);
+    }
+    
     public function liste(): void
     {
         $filters = [

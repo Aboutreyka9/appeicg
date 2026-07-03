@@ -159,7 +159,31 @@ $router->get('inscriptions/accessoires',         [InscriptionController::class, 
 $router->post('inscriptions/accessoires/ajouter',[InscriptionController::class, 'ajouterAccessoire']);
 $router->post('inscriptions/accessoires/retirer',[InscriptionController::class, 'retirerAccessoire']);
 
-// ─── Emplois du temps ────────────────────────────────────────────────────────
+// ─── Documents ───────────────────────────────────────────────────────────────
+$router->get('documents/liste',      [DocumentController::class, 'liste']);
+$router->post('documents/ajouter',   [DocumentController::class, 'ajouter']);
+$router->post('documents/modifier',  [DocumentController::class, 'modifier']);
+$router->post('documents/supprimer', [DocumentController::class, 'supprimer']);
+
+// ─── Messages ────────────────────────────────────────────────────────────────
+$router->get('messages/liste',         [MessageController::class, 'liste']);
+$router->post('messages/creer',        [MessageController::class, 'creer']);
+$router->post('messages/statut',       [MessageController::class, 'updateStatut']);
+$router->post('messages/supprimer',    [MessageController::class, 'supprimer']);
+
+// ─── Événements ──────────────────────────────────────────────────────────────
+$router->get('evenements/liste',      [EvenementController::class, 'liste']);
+$router->post('evenements/ajouter',   [EvenementController::class, 'ajouter']);
+$router->post('evenements/modifier',  [EvenementController::class, 'modifier']);
+$router->post('evenements/statut',    [EvenementController::class, 'statut']);
+$router->post('evenements/supprimer', [EvenementController::class, 'supprimer']);
+$router->get('notes/liste',       [NoteController::class, 'liste']);
+$router->post('notes/ajouter',    [NoteController::class, 'ajouter']);
+$router->post('notes/modifier',   [NoteController::class, 'modifier']);
+$router->post('notes/supprimer',  [NoteController::class, 'supprimer']);
+$router->get('notes/moyennes',    [NoteController::class, 'moyennes']);
+$router->get('notes/bulletin',    [NoteController::class, 'bulletin']);
+$router->get('notes/classement',  [NoteController::class, 'classement']);
 $router->get('emplois-temps/liste',      [EmploiTempsController::class, 'liste']);
 $router->post('emplois-temps/ajouter',   [EmploiTempsController::class, 'ajouter']);
 $router->post('emplois-temps/modifier',  [EmploiTempsController::class, 'modifier']);
@@ -193,16 +217,18 @@ $router->post('etudiants/dossiers/supprimer',  [EtudiantController::class, 'supp
 $router->get('/',          [AuthController::class, 'authentication'],['before' => 'guest']);
 $router->get('/login',     [AuthController::class, 'authentication'],['before' => 'guest']);
 $router->get('/dashboard',  [DashboardController::class, 'index']);
-$router->get('/etablissements', function () { require __DIR__ . '/../templates/etablissements.php'; });
-$router->get('/annees',    function () { require __DIR__ . '/../templates/annees.php'; });
-$router->get('/cycles',       function () { require __DIR__ . '/../templates/cycles.php'; });
-$router->get('/classes',      function () { require __DIR__ . '/../templates/classes.php'; });
-$router->get('/matieres',     function () { require __DIR__ . '/../templates/matieres.php'; });
-$router->get('/enseignants',  function () { require __DIR__ . '/../templates/enseignants.php'; });
-$router->get('/etudiants',    function () { require __DIR__ . '/../templates/etudiants.php'; });
-$router->get('/inscriptions', function () { require __DIR__ . '/../templates/inscriptions.php'; });
-$router->get('/paiements',        function () { require __DIR__ . '/../templates/paiements.php'; });
-$router->get('/emplois-du-temps', function () { require __DIR__ . '/../templates/emplois_temps.php'; });
+$router->get('/etablissements',[EtablissementController::class, 'index'],['before' => 'auth']);
+$router->get('/annees',    [AnneeController::class, 'index'],['before' => 'auth']);
+$router->get('/cycles',       [CycleController::class, 'index'],['before' => 'auth']);
+$router->get('/classes',      [ClasseController::class, 'index'],['before' => 'auth']);
+$router->get('/matieres',     [MatiereController::class, 'index'],['before' => 'auth']);
+$router->get('/enseignants',  [EnseignantController::class, 'index'],['before' => 'auth']);
+$router->get('/etudiants',    [EtudiantController::class, 'index'],['before' => 'auth']);
+$router->get('/inscriptions', [InscriptionController::class, 'index'],['before' => 'auth']);
+$router->get('/paiements',         [PaiementController::class, 'index'],['before' => 'auth']);
+$router->get('/emplois-du-temps', [EmploiTempsController::class, 'index'],['before' => 'auth']);
+$router->get('/notes',            function () { require __DIR__ . '/../templates/notes.php'; });
+$router->get('/communication',    function () { require __DIR__ . '/../templates/communication.php'; });
 
 
 

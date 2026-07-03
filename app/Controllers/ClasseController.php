@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\MainController;
 use App\Models\ClasseModel;
 use App\Models\NiveauModel;
 use App\Models\AnneeModel;
@@ -11,7 +12,7 @@ use App\Services\AuthService;
 use App\Helpers\Response;
 use App\Helpers\Validator;
 
-class ClasseController
+class ClasseController extends MainController
 {
     private ClasseModel $model;
     private NiveauModel $niveauModel;
@@ -21,12 +22,17 @@ class ClasseController
 
     public function __construct()
     {
-        AuthService::requireAuth();
+        // AuthService::requireAuth();
         $this->model             = new ClasseModel();
         $this->niveauModel       = new NiveauModel();
         $this->anneeModel        = new AnneeModel();
         $this->etablissementCode = AuthService::getEtablissementCode();
         $this->userCode          = AuthService::getUserCode();
+    }
+
+         public function index()
+    {
+        return $this->viewGuest('academiques/classes', ["title" => "classe"]);
     }
 
     public function liste(): void
