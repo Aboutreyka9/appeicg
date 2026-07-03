@@ -1,5 +1,32 @@
 
-
+<style>
+    .annee-row { cursor: pointer; transition: background .15s; }
+    .annee-row:hover td { background: var(--surface) !important; }
+    .semestres-panel {
+      display: none;
+      background: var(--surface);
+      border-top: 2px solid var(--accent);
+    }
+    .semestres-panel.open { display: table-row; }
+    .semestres-inner { padding: 20px 24px; }
+    .semestres-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .semestres-header h4 { font-size: .9rem; color: var(--primary); margin: 0; }
+    .sem-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+    .sem-table th {
+      text-align: left; padding: 8px 12px;
+      color: var(--text-muted); font-size: .72rem;
+      font-weight: 600; text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .sem-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .sem-table tbody tr:last-child td { border-bottom: none; }
+    .expand-icon { transition: transform .2s; display: inline-block; }
+    .annee-row.expanded .expand-icon { transform: rotate(90deg); }
+  </style>
+  
   <div class="main">
 
     <header class="topbar">

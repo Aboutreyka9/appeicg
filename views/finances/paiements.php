@@ -1,4 +1,16 @@
 
+  <style>
+    .tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); }
+    .tab-btn { padding:10px 20px; font-size:.875rem; font-weight:600; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
+    .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:24px; }
+    .kpi-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+    .kpi-value { font-size:1.5rem; font-weight:700; color:var(--primary); }
+    .kpi-label { font-size:.78rem; color:var(--text-muted); margin-top:4px; }
+  </style>
+
   <div class="main">
     <header class="topbar">
       <span class="topbar-title">Paiements & Scolarité</span>
@@ -119,3 +131,5 @@
     </main>
   </div>
 </div>
+
+<div class="toast-container" id="toast-container"></div>

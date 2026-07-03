@@ -1,4 +1,21 @@
 
+ <style>
+    .tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); }
+    .tab-btn { padding:10px 20px; font-size:.875rem; font-weight:600; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
+    .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    .ins-row { cursor:pointer; }
+    .ins-panel { background:var(--surface); border-top:2px solid var(--accent); display:none; }
+    .ins-panel.open { display:table-row; }
+    .ins-inner { padding:16px 24px; }
+    .expand-icon { transition:transform .2s; display:inline-block; color:var(--text-muted); font-size:.7rem; }
+    .expandable.expanded .expand-icon { transform:rotate(90deg); }
+    .statut-badge-valide  { background:rgba(39,174,96,.1); color:var(--success); }
+    .statut-badge-solde   { background:rgba(46,134,193,.1); color:var(--info); }
+    .statut-badge-annule  { background:rgba(224,62,62,.1); color:var(--danger); }
+  </style>
+
   <div class="main">
     <header class="topbar">
       <span class="topbar-title">Inscriptions</span>
@@ -95,3 +112,5 @@
     </main>
   </div>
 </div>
+
+<div class="toast-container" id="toast-container"></div>

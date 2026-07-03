@@ -1,4 +1,15 @@
 
+  <style>
+    .ens-avatar { width:36px; height:36px; border-radius:50%; background:var(--primary-light); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; flex-shrink:0; }
+    .mat-tag { display:inline-flex; align-items:center; gap:4px; background:rgba(27,58,107,.08); color:var(--primary); border-radius:20px; padding:2px 10px; font-size:.72rem; font-weight:600; margin:2px; }
+    .mat-tag .remove-mat { cursor:pointer; color:var(--danger); margin-left:2px; font-weight:700; }
+    .mat-panel { background:var(--surface); border-top:2px solid var(--accent); display:none; }
+    .mat-panel.open { display:table-row; }
+    .mat-inner { padding:16px 24px; }
+    .expandable { cursor:pointer; }
+    .expand-icon { transition:transform .2s; display:inline-block; color:var(--text-muted); font-size:.7rem; }
+    .expandable.expanded .expand-icon { transform:rotate(90deg); }
+  </style>
 
   <div class="main">
     <header class="topbar">
@@ -36,3 +47,6 @@
     </main>
   </div>
 </div>
+
+
+<div class="toast-container" id="toast-container"></div>

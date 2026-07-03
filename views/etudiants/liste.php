@@ -1,4 +1,26 @@
 
+  <style>
+    .etu-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--primary-light),var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; flex-shrink:0; }
+    .detail-panel { background:var(--surface); border-top:2px solid var(--accent); display:none; }
+    .detail-panel.open { display:table-row; }
+    .detail-inner { padding:20px 24px; }
+    .detail-tabs { display:flex; gap:4px; margin-bottom:16px; border-bottom:1px solid var(--border); }
+    .dtab { padding:8px 16px; font-size:.82rem; font-weight:600; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-1px; }
+    .dtab.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .dtab-content { display:none; }
+    .dtab-content.active { display:block; }
+    .info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .info-item label { font-size:.72rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:2px; }
+    .info-item span { font-size:.875rem; color:var(--text); }
+    .doc-item { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--white); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:8px; }
+    .doc-label { font-size:.875rem; font-weight:500; }
+    .doc-meta { font-size:.75rem; color:var(--text-muted); }
+    .expandable { cursor:pointer; }
+    .expand-icon { transition:transform .2s; display:inline-block; color:var(--text-muted); font-size:.7rem; }
+    .expandable.expanded .expand-icon { transform:rotate(90deg); }
+    .search-bar { display:flex; gap:10px; margin-bottom:20px; }
+  </style>
+
   <div class="main">
     <header class="topbar">
       <span class="topbar-title">Étudiants</span>
@@ -46,3 +68,5 @@
     </main>
   </div>
 </div>
+
+<div class="toast-container" id="toast-container"></div>

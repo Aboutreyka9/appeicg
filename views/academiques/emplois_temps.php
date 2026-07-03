@@ -1,4 +1,27 @@
 
+   <style>
+    .view-tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); }
+    .vtab { padding:10px 20px; font-size:.875rem; font-weight:600; color:var(--text-muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
+    .vtab.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+    /* Grille hebdomadaire */
+    .timetable { width:100%; border-collapse:collapse; font-size:.78rem; }
+    .timetable th { background:var(--primary); color:#fff; padding:10px 8px; text-align:center; font-weight:600; border:1px solid rgba(255,255,255,.15); }
+    .timetable td { border:1px solid var(--border); padding:4px; vertical-align:top; min-width:120px; min-height:60px; }
+    .timetable td.time-col { background:var(--surface); color:var(--text-muted); font-size:.72rem; text-align:center; font-weight:600; width:70px; }
+    .slot { background:var(--primary-light); color:#fff; border-radius:6px; padding:6px 8px; margin:2px; font-size:.72rem; line-height:1.4; }
+    .slot .slot-mat { font-weight:700; }
+    .slot .slot-meta { opacity:.85; font-size:.68rem; margin-top:2px; }
+    .slot .slot-actions { display:flex; gap:4px; margin-top:4px; }
+    .slot .slot-btn { background:rgba(255,255,255,.2); border:none; color:#fff; border-radius:3px; padding:2px 6px; font-size:.65rem; cursor:pointer; }
+    .slot .slot-btn:hover { background:rgba(255,255,255,.35); }
+    .slot .slot-btn.del { background:rgba(224,62,62,.4); }
+    .slot .slot-btn.del:hover { background:rgba(224,62,62,.7); }
+
+    .filters-bar { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:20px; }
+    .filters-bar .form-group { margin:0; flex:1; min-width:160px; }
+  </style>
+  
   <div class="main">
     <header class="topbar">
       <span class="topbar-title">Emplois du temps</span>
@@ -105,3 +128,5 @@
     </main>
   </div>
 </div>
+
+<div class="toast-container" id="toast-container"></div>
